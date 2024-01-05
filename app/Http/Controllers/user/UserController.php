@@ -2859,7 +2859,7 @@ $myuser = DB::table('user')->where([
 $setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();
 $getway_payment = $setting->getway_payment;
 if($myuser->user_email=='mustafa1390@gmail.com'){
-    $price='506';
+    // $price='506';
     // $getway_payment = 'payping';
 }
 
@@ -2932,6 +2932,7 @@ if (empty($result['errors'])) {
 
     if($getway_payment=='payping'){
 
+        $price = $price/10;
                     $token = "PJ__XCI8AR-pL5c4GCOQc3auTQzk2wPPKJ7hgYKq3U0";
                     $args = array(
                         "amount" => $price,
@@ -3009,10 +3010,13 @@ $myuser = DB::table('user')->where([
 
 $price = $myrequest->req_price;
 
-if($myuser->user_email=='mustafa1390@gmail.com'){$price='506';}
+if($myuser->user_email=='mustafa1390@gmail.com'){
+    // $price='506';
+}
 
 
 
+        $price = $price/10;
 
 
 
@@ -4223,7 +4227,7 @@ $myuser = DB::table('user')->where([
 $setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();
 $getway_payment = $setting->getway_payment;
 if($myuser->user_email=='mustafa1390@gmail.com'){
-    $price='506';
+    // $price='506';
     // $getway_payment = 'payping';
 }
 
@@ -4288,6 +4292,7 @@ if (empty($result['errors'])) {
     
     if($getway_payment=='payping'){
 
+        $price = $price/10;
                     $token = "PJ__XCI8AR-pL5c4GCOQc3auTQzk2wPPKJ7hgYKq3U0";
                     $args = array(
                         "amount" => $price,
