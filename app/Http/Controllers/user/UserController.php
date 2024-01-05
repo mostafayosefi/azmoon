@@ -2859,7 +2859,7 @@ $myuser = DB::table('user')->where([
 $setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();
 $getway_payment = $setting->getway_payment;
 if($myuser->user_email=='mustafa1390@gmail.com'){
-    $price='506';
+    $price='102';
     $getway_payment = 'payping';
 }
 
@@ -2996,7 +2996,7 @@ $myuser = DB::table('user')->where([
 
 $price = $myrequest->req_price;
 
-if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
+if($myuser->user_email=='mustafa1390@gmail.com'){$price='102';}
 
 
 
@@ -3034,8 +3034,8 @@ if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
                     curl_close($curl);
                     $callback_info = json_decode($result, true);
 
-    return  redirect('user/success/'.$req_rnd);
-                    // dd($callback_info);
+    // return  redirect('user/success/'.$req_rnd);
+                    dd($callback_info);
                     // nnn
 
                     if ($callback_info['cardNumber']) { }
