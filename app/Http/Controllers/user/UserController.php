@@ -3036,6 +3036,7 @@ if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
 
     return  redirect('user/success/'.$req_rnd);
                     // dd($callback_info);
+                    // nnn
 
                     if ($callback_info['cardNumber']) { }
                 }catch (\Exception $e) {
