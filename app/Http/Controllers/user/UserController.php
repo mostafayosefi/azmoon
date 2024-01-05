@@ -4231,16 +4231,16 @@ if($myuser->user_email=='mustafa1390@gmail.com'){
     // $getway_payment = 'payping';
 }
 
-
-    if($getway_payment=='zarinpal'){
-            
-//  start zarinpal
-
 $myuser = DB::table('user')->where([
     ['id',  Session::get('iduser')],
 ])->first();
 
 $price = $myrequest->req_price;
+
+    if($getway_payment=='zarinpal'){
+            
+//  start zarinpal
+
 if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
 
 $data = array("merchant_id" => "f373affa-e1bd-11e8-bcb5-005056a205be",
