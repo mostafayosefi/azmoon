@@ -54,7 +54,7 @@
   <div class="form-check">
     <label class="form-check-label">
       <input type="radio" class="form-check-input" name="getway_payment" id="optionsRadios1"
-        value="sms" @if($admins->getway_payment=='zarinpal') checked @endif >
+        value="zarinpal" @if($admins->getway_payment=='zarinpal') checked @endif >
         زرین پال
     </label>
   </div>
@@ -62,7 +62,7 @@
   <div class="form-check">
     <label class="form-check-label">
       <input type="radio" class="form-check-input" name="getway_payment" id="optionsRadios2"  
-        value="pas" @if($admins->getway_payment=='payping') checked @endif >
+        value="payping" @if($admins->getway_payment=='payping') checked @endif >
      پی پینگ
     </label>
   </div>
