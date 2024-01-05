@@ -2973,7 +2973,7 @@ else if (empty(Session::has('signuser'))){   return redirect('user/sign-in'); }
 }
 	}
 
-
+// jjj
 
     
 public function callback_payping ($id ){
