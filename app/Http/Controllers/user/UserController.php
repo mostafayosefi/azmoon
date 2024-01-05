@@ -2869,6 +2869,16 @@ if($myuser->user_email=='mustafa1390@gmail.com'){
 //  start zarinpal
  
 
+
+
+//  start zarinpal
+
+$myuser = DB::table('user')->where([
+    ['id',  Session::get('iduser')],
+])->first();
+ 
+if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
+
 $data = array("merchant_id" => "f373affa-e1bd-11e8-bcb5-005056a205be",
 "amount" => $price,
 "callback_url" => "https://azmoonpte.com/servicepay/user/verify_buy.php?req_rnd=".$myrequest->req_rnd,
@@ -2913,6 +2923,10 @@ if (empty($result['errors'])) {
 
 
 //  end zarinpal
+
+
+
+
 
     }
 
