@@ -2912,7 +2912,7 @@ $setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy
 $getway_payment = $setting->getway_payment;
 if($myuser->user_email=='mustafa1390@gmail.com'){
     $price='506';
-    // $getway_payment = 'payping';
+    $getway_payment = 'payping';
 }
 
 
@@ -4221,7 +4221,7 @@ $setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy
 $getway_payment = $setting->getway_payment;
 if($myuser->user_email=='mustafa1390@gmail.com'){
     $price='506';
-    // $getway_payment = 'payping';
+    $getway_payment = 'payping';
 }
 
 
