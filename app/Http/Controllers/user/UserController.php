@@ -3034,11 +3034,14 @@ if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
                     curl_close($curl);
                     $callback_info = json_decode($result, true);
 
-                    dd($callback_info);
+    return  redirect('user/success/'.$req_rnd);
+                    // dd($callback_info);
 
                     if ($callback_info['cardNumber']) { }
                 }catch (\Exception $e) {
-                    //      dd([$e]);
+                         dd([$e]);
+                    
+    // return  redirect('user/error/'.$req_rnd);
                    
                 }
 
@@ -3046,8 +3049,6 @@ if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
 
 
 
-    // return  redirect('user/error/'.$req_rnd);
-    // return  redirect('user/success/'.$req_rnd);
 
 
 
