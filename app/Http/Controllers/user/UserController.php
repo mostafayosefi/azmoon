@@ -3037,6 +3037,9 @@ if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
                     dd($callback_info);
 
                     if ($callback_info['cardNumber']) { }
+                }catch (\Exception $e) {
+                    //      dd([$e]);
+                   
                 }
 
 
