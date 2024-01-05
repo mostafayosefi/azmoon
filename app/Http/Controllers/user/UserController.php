@@ -2860,60 +2860,13 @@ $setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy
 $getway_payment = $setting->getway_payment;
 if($myuser->user_email=='mustafa1390@gmail.com'){
     $price='506';
-    $getway_payment = 'payping';
+    // $getway_payment = 'payping';
 }
 
 
     if($getway_payment=='zarinpal'){
         
-//  start zarinpal
- 
-
-$data = array("merchant_id" => "f373affa-e1bd-11e8-bcb5-005056a205be",
-"amount" => $price,
-"callback_url" => "https://azmoonpte.com/servicepay/user/verify_buy.php?req_rnd=".$myrequest->req_rnd,
-"description" => $myuser->user_name,
-"metadata" => [ "email" => $myuser->user_email,"mobile"=>$myuser->user_tell],
-);
-$jsonData = json_encode($data);
-$ch = curl_init('https://api.zarinpal.com/pg/v4/payment/request.json');
-curl_setopt($ch, CURLOPT_USERAGENT, 'ZarinPal Rest Api v1');
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-'Content-Type: application/json',
-'Content-Length: ' . strlen($jsonData)
-));
-
-$result = curl_exec($ch);
-$err = curl_error($ch);
-$result = json_decode($result, true, JSON_PRETTY_PRINT);
-curl_close($ch);
-
-
-
-if ($err) {
-echo "cURL Error #:" . $err;
-} else {
-if (empty($result['errors'])) {
-    if ($result['data']['code'] == 100) {
-        // header('Location: https://www.zarinpal.com/pg/StartPay/' . $result['data']["authority"]);
-        $url ='https://www.zarinpal.com/pg/StartPay/' . $result['data']["authority"];
-        // header('Location: https://www.zarinpal.com/pg/StartPay/' . $result['data']["authority"]);
-        // return Redirect::to($url);
-        return redirect()->away($url);
-    }
-} else {
-     echo'Error Code: ' . $result['errors']['code'];
-     echo'message: ' .  $result['errors']['message'];
-
-}
-}
-
-
-//  end zarinpal
-
+         return pay_zarinpal($price , $myuser , $myrequest);
     }
 
     if($getway_payment=='payping'){
@@ -4163,56 +4116,25 @@ public function zarinpal_pay($req_rnd){
 
 $myuser = DB::table('user')->where([
     ['id',  Session::get('iduser')],
-])->first();
+])->first(); 
 
-$price = $myrequest->req_price;
-if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
-
-$data = array("merchant_id" => "f373affa-e1bd-11e8-bcb5-005056a205be",
-"amount" => $price,
-"callback_url" => "https://azmoonpte.com/servicepay/user/verify_buy.php?req_rnd=".$req_rnd,
-"description" => $myuser->user_name,
-"metadata" => [ "email" => $myuser->user_email,"mobile"=>$myuser->user_tell],
-);
-$jsonData = json_encode($data);
-$ch = curl_init('https://api.zarinpal.com/pg/v4/payment/request.json');
-curl_setopt($ch, CURLOPT_USERAGENT, 'ZarinPal Rest Api v1');
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-'Content-Type: application/json',
-'Content-Length: ' . strlen($jsonData)
-));
-
-$result = curl_exec($ch);
-$err = curl_error($ch);
-$result = json_decode($result, true, JSON_PRETTY_PRINT);
-curl_close($ch);
+$setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();
+$getway_payment = $setting->getway_payment;
+if($myuser->user_email=='mustafa1390@gmail.com'){
+    $price='506';
+    // $getway_payment = 'payping';
+}
 
 
-
-if ($err) {
-echo "cURL Error #:" . $err;
-} else {
-if (empty($result['errors'])) {
-    if ($result['data']['code'] == 100) {
-        // dd($result['data']["authority"]);
-        $url ='https://www.zarinpal.com/pg/StartPay/' . $result['data']["authority"];
-        // header('Location: https://www.zarinpal.com/pg/StartPay/' . $result['data']["authority"]);
-        // return Redirect::to($url);
-        return redirect()->away($url);
-
+    if($getway_payment=='zarinpal'){
+        
+         return pay_zarinpal($price , $myuser , $myrequest);
     }
-} else {
-     echo'Error Code: ' . $result['errors']['code'];
-     echo'message: ' .  $result['errors']['message'];
 
-}
-}
+    if($getway_payment=='payping'){
 
-
-//  end zarinpal
+         return pay_payping($price , $myuser , $myrequest);
+    }
 
 
 
