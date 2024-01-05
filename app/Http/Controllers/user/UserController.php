@@ -276,58 +276,6 @@ $countalert  = \DB::table('alert')
  }
 
 
-public function pay_payping(   $price , $myuser ,  $myrequest  ){
-
-                    $token = "PJ__XCI8AR-pL5c4GCOQc3auTQzk2wPPKJ7hgYKq3U0";
-                    $args = array(
-                        "amount" => $price,
-                        "payerIdentity" => $myuser->user_email,
-                        "payerName" => $myuser->user_name ,
-                        "description" => $myuser->user_tell ,
-                        "returnUrl" => 'https://azmoonpte.com/servicepay/user/callback/payping/' . $myrequest->req_rnd,
-                        "clientRefId" => "$myrequest->req_rnd"
-                    );
-
-                    try {
-                        $curl = curl_init();
-                        curl_setopt_array($curl, array(
-                                CURLOPT_URL => "https://api.payping.ir/v2/pay",
-                                CURLOPT_RETURNTRANSFER => true,
-                                CURLOPT_POSTFIELDS => json_encode($args),
-                                CURLOPT_HTTPHEADER => array(
-                                    "accept: application/json",
-                                    "authorization: Bearer " . $token,
-                                    "cache-control: no-cache",
-                                    "content-type: application/json"
-                                ),
-                            )
-                        );
-                        $result = curl_exec($curl);
-                        curl_close($curl);
-                        $transaction_info = json_decode($result, true);
-                        // dd($result);
-                        if ($transaction_info['code']) {
-                            // $order->transactionId = $transaction_info['code'];
-                            // $order->save();
-                            // session_start();
-                            if (isset($_SESSION['refresh2'])) unset($_SESSION['refresh2']);
-                            if (isset($_SESSION['refresh'])) unset($_SESSION['refresh']);
-                            return redirect('https://api.payping.ir/v2/pay/gotoipg/' . $transaction_info['code']);
-                        } else throw new \Exception("مشکلی در پرداخت وجود دارد");
-
-                    } catch (\Exception $e) {
-                        echo $e->getMessage();
-
-                    }
-
-}
-
-public function pay_zarinpal(   $price , $myuser ,  $myrequest  ){
-
-}
-
-
-
 
 public function alertnotif($typ,$link,$req){
 
@@ -2918,7 +2866,6 @@ if($myuser->user_email=='mustafa1390@gmail.com'){
 
     if($getway_payment=='zarinpal'){
         
-        
 //  start zarinpal
  
 
@@ -2966,11 +2913,12 @@ if (empty($result['errors'])) {
 
 
 //  end zarinpal
+
     }
 
     if($getway_payment=='payping'){
-$h = new UserController();
-$h->pay_payping($price , $myuser , $myrequest);
+
+         return pay_payping($price , $myuser , $myrequest);
     }
 
 
@@ -4215,24 +4163,14 @@ public function zarinpal_pay($req_rnd){
 
 $myuser = DB::table('user')->where([
     ['id',  Session::get('iduser')],
-])->first(); 
+])->first();
 
-$setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();
-$getway_payment = $setting->getway_payment;
-if($myuser->user_email=='mustafa1390@gmail.com'){
-    $price='506';
-    $getway_payment = 'payping';
-}
-
-
-    if($getway_payment=='zarinpal'){
-        
-//  start zarinpal
- 
+$price = $myrequest->req_price;
+if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
 
 $data = array("merchant_id" => "f373affa-e1bd-11e8-bcb5-005056a205be",
 "amount" => $price,
-"callback_url" => "https://azmoonpte.com/servicepay/user/verify_buy.php?req_rnd=".$myrequest->req_rnd,
+"callback_url" => "https://azmoonpte.com/servicepay/user/verify_buy.php?req_rnd=".$req_rnd,
 "description" => $myuser->user_name,
 "metadata" => [ "email" => $myuser->user_email,"mobile"=>$myuser->user_tell],
 );
@@ -4259,11 +4197,12 @@ echo "cURL Error #:" . $err;
 } else {
 if (empty($result['errors'])) {
     if ($result['data']['code'] == 100) {
-        // header('Location: https://www.zarinpal.com/pg/StartPay/' . $result['data']["authority"]);
+        // dd($result['data']["authority"]);
         $url ='https://www.zarinpal.com/pg/StartPay/' . $result['data']["authority"];
         // header('Location: https://www.zarinpal.com/pg/StartPay/' . $result['data']["authority"]);
         // return Redirect::to($url);
         return redirect()->away($url);
+
     }
 } else {
      echo'Error Code: ' . $result['errors']['code'];
@@ -4274,13 +4213,6 @@ if (empty($result['errors'])) {
 
 
 //  end zarinpal
-    }
-
-    if($getway_payment=='payping'){
-
-$h = new UserController();
-$h->pay_payping($price , $myuser , $myrequest);
-    }
 
 
 
