@@ -2852,6 +2852,9 @@ $nametrt = Session::flash('sessurl', 'viewsonlineshops');
 //  return redirect('sample/request.php?id='.$myrequest->req_rnd.'&&price='.$price.'');
 
 
+$myuser = DB::table('user')->where([
+    ['id',  Session::get('iduser')],
+])->first();
 
 $setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();
 $getway_payment = $setting->getway_payment;
@@ -2864,9 +2867,6 @@ if($myuser->user_email=='mustafa1390@gmail.com'){
     if($getway_payment=='zarinpal'){
         
 //  start zarinpal
-$myuser = DB::table('user')->where([
-    ['id',  Session::get('iduser')],
-])->first();
  
 
 $data = array("merchant_id" => "f373affa-e1bd-11e8-bcb5-005056a205be",
