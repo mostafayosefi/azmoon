@@ -2976,7 +2976,7 @@ else if (empty(Session::has('signuser'))){   return redirect('user/sign-in'); }
 
 
     
-public function callback_payping ($id , Request $request ){
+public function callback_payping ($id ){
 	if (Session::has('signuser')){
 		if (Session::get('activeuser')==1){
 

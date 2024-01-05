@@ -320,7 +320,7 @@ Route::get('user/onlineshops','UserController@onlineshops');
 Route::get('user/onlineshops/{id}','UserController@onlineshopsid');
 Route::post('user/onlineshops/{id}/post','UserController@onlineshopsidpost');
 
-Route::get('user/callback/payping/{id}','UserController@callback_payping');
+Route::any('user/callback/payping/{id}','UserController@callback_payping');
 
 
 Route::get('user/test_zarinpal','UserController@test_zarinpal');
