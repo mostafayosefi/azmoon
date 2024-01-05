@@ -1,0 +1,679 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+@font-face {
+  font-family: 'BHoma';
+  src: url('fonts/BHoma.eot?#') format('eot'),  /* IE6–8 */
+       url('fonts/BHoma.woff') format('woff'),  /* FF3.6+, IE9, IE10-11, Chrome6+, Saf5.1+*/
+       url('fonts/BHoma.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+@font-face {
+  font-family: 'BNazanin';
+  src: url('fonts/BNazanin.eot?#') format('eot'),  /* IE6–8 */
+       url('fonts/BNazanin.woff') format('woff'),  /* FF3.6+, IE9, IE10-11, Chrome6+, Saf5.1+*/
+       url('fonts/BNazanin.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+@font-face {
+  font-family: 'BRoya';
+  src: url('fonts/BRoya.eot?#') format('eot'),  /* IE6–8 */
+       url('fonts/BRoya.woff') format('woff'),  /* FF3.6+, IE9, IE10-11, Chrome6+, Saf5.1+*/
+       url('fonts/BRoya.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+@font-face {
+  font-family: 'BTitrBold';
+  src: url('fonts/BTitrBold.eot?#') format('eot'),  /* IE6–8 */
+       url('fonts/BTitrBold.woff') format('woff'),  /* FF3.6+, IE9, IE10-11, Chrome6+, Saf5.1+*/
+       url('fonts/BTitrBold.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+@font-face {
+  font-family: 'BYekan';
+  src: url('fonts/BYekan.eot?#') format('eot'),  /* IE6–8 */
+       url('fonts/BYekan.woff') format('woff'),  /* FF3.6+, IE9, IE10-11, Chrome6+, Saf5.1+*/
+       url('fonts/BYekan.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+.BHoma {
+	font-family: BHoma, Arial, Helvetica, sans-serif;
+}
+
+.BNazanin {
+	font-family: BNazanin, Arial, Helvetica, sans-serif;
+}
+
+.BRoya {
+	font-family: BRoya, Arial, Helvetica, sans-serif;
+}
+
+.BTitrBold {
+	font-family: BTitrBold, Arial, Helvetica, sans-serif;
+}
+
+.BYekan {
+	font-family: BYekan, Arial, Helvetica, sans-serif;
+}
+
+
+*{
+	font-size:15px;
+	margin: 0px;
+	outline: 0px;
+	padding: 0px;
+	direction:rtl;
+}
+
+.main
+{
+	margin:0px auto;
+	margin-top:20px;
+	width:92%;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	border:2px #F9C solid;
+	padding:10px 14px 5px 14px;
+	box-shadow: 0px 1px 20px #F96;
+}
+
+body{direction:rtl;}
+#fg_membersite fieldset
+{
+   width: 230px;
+   padding:20px;
+   border:1px solid #ccc;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+-khtml-border-radius: 10px;
+border-radius: 10px;   
+}
+
+#fg_membersite legend, #fg_membersite h2
+{
+   font-family : Arial, sans-serif;
+   font-size: 1.3em;
+   font-weight:bold;
+   color:#333;
+}
+
+#fg_membersite label
+{
+   font-family : Arial, sans-serif;
+   font-size:0.8em;
+   font-weight: bold;
+}
+
+#fg_membersite input[type="text"],#fg_membersite textarea,
+#fg_membersite input[type="password"]
+{
+  font-family : Arial, Verdana, sans-serif;
+  font-size: 0.8em;
+  line-height:140%;
+  color : #000; 
+  padding : 3px; 
+  border : 1px solid #999;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+
+}
+
+#fg_membersite input[type="text"],
+#fg_membersite input[type="password"]
+{
+  height:18px;
+  width:220px;
+}
+
+ #fg_membersite #scaptcha
+{
+  width:60px;
+  height:18px;
+}
+
+#fg_membersite input[type="submit"]
+{
+   width:100px;
+   height:30px;
+   padding-left:0px;
+}
+
+#fg_membersite textarea
+{
+  height:120px;
+  width:310px;
+}
+
+#fg_membersite input[type="text"]:focus,
+#fg_membersite textarea:focus
+{
+  color : #009;
+  border : 1px solid #990000;
+  background-color : #ffff99;
+  font-weight:bold;
+}
+
+#fg_membersite .container
+{
+   margin-top:8px;
+   margin-bottom: 10px;
+}
+
+#fg_membersite .error
+{
+   font-family: Verdana, Arial, sans-serif; 
+   font-size: 0.7em;
+   color: #900;
+   background-color : #ffff00;
+}
+
+#fg_membersite #register_password_errorloc
+{
+    clear:both;
+}
+
+#fg_membersite  fieldset#antispam
+{
+   padding:2px;
+   border-top:1px solid #EEE;
+   border-left:0;
+   border-right:0;
+   border-bottom:0;
+   width:350px;
+}
+
+#fg_membersite fieldset#antispam legend
+{
+   font-family : Arial, sans-serif;
+   font-size: 0.8em;
+   font-weight:bold;
+   color:#333;   
+}
+
+#fg_membersite .short_explanation
+{
+   font-family : Arial, sans-serif;
+   font-size: 0.6em;
+   color:#333;   
+}
+
+/* spam_trap: This input is hidden. This is here to trick the spam bots*/
+#fg_membersite .spmhidip
+{
+   display:none;
+   width:10px;
+   height:3px;
+}
+#fg_membersite #fg_crdiv
+{
+   font-family : Arial, sans-serif;
+   font-size: 0.3em;
+   opacity: .2;
+   -moz-opacity: .2;
+   filter: alpha(opacity=20);   
+}
+#fg_membersite  #fg_crdiv p
+{
+    display:none;
+}
+
+#fg_membersite_content li
+{
+	direction:rtl;
+	font-family:Tahoma, Geneva, sans-serif;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+#fg_membersite_content
+{
+    font-family : Arial, sans-serif;
+    font-size: 0.9em;
+    line-height: 150%
+}
+
+#fg_membersite_content h2
+{
+   font-family : Arial, sans-serif;
+   font-size: 1.5em;
+   font-weight:bold;
+   color:#333;
+}
+
+table.CForm_ViewItem .float_element,
+table.CForm_FilterToolbar .float_element,
+table.CForm_AddItemForm .float_element {
+	float:right; padding:12px 5px 12px 40px; display:block;
+}
+table.CForm_ViewItem .wid_Element,
+table.CForm_FilterToolbar .wid_Element,
+table.CForm_AddItemForm .wid_Element {
+	float:right; padding:12px 5px 12px 60px; width:500px;
+}
+table.CForm_ViewItem .wid_Element .label,
+table.CForm_FilterToolbar .wid_Element .label
+table.CForm_AddItemForm .wid_Element .label{
+	font-weight:bold; float:right;
+}
+table.CForm_ViewItem .float_element .label,
+table.CForm_FilterToolbar .float_element .label,
+table.CForm_AddItemForm .float_element .label{
+	font-weight:bold; float:right;
+}
+
+table.CForm_FilterToolbar,
+table.CForm_ViewItem,
+table.CForm_AddItemsGrid,
+table.CForm_AddItemForm,
+table.CForm_additem_2,
+table.CForm_ViewItesmGrid {
+	/*width: 100%;*/
+	border-spacing: 1px;
+	background-color: #e7e7e7;
+	color: #333;
+	/*text-shadow:1px 1px #FFF;*/
+	/*font-weight:bold;*/
+	margin:15px 0 15px 0;
+	
+	
+	-moz-border-radius-topleft: 6px; -webkit-border-top-left-radius: 6px; border-top-left-radius: 6px;
+	-moz-border-radius-topright: 6px; -webkit-border-top-right-radius: 6px; border-top-right-radius: 6px;
+	
+}
+
+
+table.CForm_FilterToolbar
+{
+	border:1px solid #CCC;
+}
+
+table.CForm_ViewItesmGrid
+{
+	width: 100%;
+	/*width:812px;*/
+}
+
+table.CForm_FilterToolbar th,
+table.CForm_ViewItem th,
+table.CForm_ViewItesmGrid th,
+table.CForm_AddItemsGrid th,
+table.CForm_ViewItesmGrid th { 
+
+padding: 3px; 
+-moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px;
+
+
+}
+
+table.CForm_ViewItem thead,
+table.CForm_AddItemForm thead,
+table.CForm_additem_2 thead,
+table.CForm_AddItemsGrid thead,
+table.CForm_ViewItesmGrid thead
+{
+	/*background: url(../../images/style_images/title.png) repeat-x #f0f0f0;*/
+	/*background-image: -moz-linear-gradient(center top , #FFFFFF 0%, #F7F7F7 50%, #E9E9E9 50%, #F0F0F0 80%, #F7F7F7 100%);*/
+	/*background-image: -moz-linear-gradient(center top , #ADBDD7 0%, #748DBB 100%);*/
+	/*background-image: -moz-linear-gradient(center top , #EDF3FA, #D0D9E4);*/
+	background: url(../../images/style_images/title.png) repeat-x #f0f0f0;
+}
+
+table.CForm_ViewItesmGrid thead .cform_sort_field{ cursor:pointer; }
+
+
+table.CForm_ViewItesmGrid thead .cform_sort_field a{ 
+cursor:pointer;
+color: #666;
+float: right;
+font-weight: normal;
+font-weight:bold;
+display:block;
+padding:6px 4px 6px 4px;
+margin:0px;
+text-decoration:underline;
+
+}
+
+table.CForm_ViewItesmGrid thead .cform_sort_field a:hover
+{
+	text-decoration:none;
+}
+
+table.CForm_ViewItesmGrid thead .arrow_up a
+{
+	padding-right:17px;
+	background: url(../../images/style_images/top.png) no-repeat right ;
+}
+
+table.CForm_ViewItesmGrid thead .arrow_down a
+{
+	padding-right:17px;
+	background: url(../../images/style_images/up.png) no-repeat right ;
+}
+
+/*table.CForm_ViewItesmGrid thead .arrow_down
+{
+	background: url(../../images/style_images/mirror_title.png);
+}
+table.CForm_ViewItesmGrid thead .arrow_up
+{
+	background: url(../../images/style_images/mirror_title.png);
+}*/
+
+
+
+table.CForm_FilterToolbar thead
+{
+}
+
+table.CForm_AddItemsGrid th, 
+table.CForm_ViewItem th,
+table.CForm_AddItemForm thead th,
+table.CForm_additem_2 thead th,
+table.CForm_ViewItesmGrid thead th {
+	text-align: center;
+	height:25px;
+	color: #666;
+	border-bottom: 1px solid #999;
+	border-left: 1px solid #fff;
+	text-shadow:1px 1px #CCC;
+}
+
+
+table.CForm_ViewItem thead a:hover,
+table.CForm_AddItemsGrid thead a:hover,
+table.CForm_AddItemForm thead a:hover,
+table.CForm_additem_2 thead a:hover,
+table.CForm_ViewItesmGrid thead a:hover { text-decoration: none; }
+
+table.CForm_ViewItem thead th img,
+table.CForm_AddItemsGrid thead th img,
+table.CForm_AddItemForm  thead th img,
+table.CForm_additem_2 thead th img,
+table.CForm_ViewItesmGrid thead th img { vertical-align: middle; }
+
+table.CForm_ViewItem tbody th,
+table.CForm_AddItemsGrid tbody th,
+table.CForm_AddItemForm  tbody th,
+table.CForm_additem_2 tbody th,
+table.CForm_ViewItesmGrid tbody th { font-weight: bold; 
+}
+
+
+table.CForm_ViewItem tbody tr,
+table.CForm_AddItemsGrid tbody tr,
+table.CForm_AddItemForm tbody tr,
+table.CForm_additem_2 tbody tr,
+table.CForm_ViewItesmGrid tbody tr			{ background-color: #fff;  text-align: center; }
+
+table.CForm_ViewItem tbody tr.row1,
+table.CForm_AddItemForm tbody tr.row1,
+table.CForm_AddItemsGrid tbody tr.row1,
+table.CForm_additem_2 tbody tr.row1,
+table.CForm_ViewItesmGrid tbody tr.row1 	{ background: #f9f9f9; border-top: 1px solid #fff; }
+
+/*--------تنظیمات رنگ پس زمینه جدول ها زمانی که موس روی آنها قرار میگیرد------------*/
+table.CForm_AddItemsGrid tbody tr.row0:hover td,
+table.CForm_AddItemsGrid tbody tr.row1:hover td,
+table.CForm_ViewItem tbody tr.row0:hover td,
+table.CForm_ViewItem tbody tr.row1:hover td,
+table.CForm_AddItemForm tbody tr.row0:hover td,
+table.CForm_AddItemForm tbody tr.row1:hover td,
+table.CForm_additem_2 tbody tr.row0:hover td,
+table.CForm_additem_2 tbody tr.row1:hover td,
+table.CForm_ViewItesmGrid tbody tr.row0:hover td,
+table.CForm_ViewItesmGrid tbody tr.row1:hover td  { background-color: #FFC ; }
+
+
+/*---------تنظیمات رنگ پس زمینه  و نوار های جدول ها----------*/
+table.CForm_AddItemsGrid tbody tr td,
+table.CForm_ViewItem tbody tr td,
+table.CForm_AddItemForm tbody tr td,
+table.CForm_additem_2 tbody tr td,
+table.CForm_ViewItesmGrid tbody tr td 	   { 
+height: 25px; background: #fff; border: 1px solid #fff; 
+padding:5px 7px 5px 7px;
+}
+
+table.CForm_FilterToolbar tbody tr.wide th
+{
+    height: 20px; 
+    padding:5px 7px 5px 7px;
+    border-bottom: 1px solid #CCCCCC
+}
+
+table.CForm_AddItemsGrid tbody tr td.input,
+table.CForm_AddItemsGrid tbody tr td.label,
+table.CForm_ViewItem tbody tr td.input,
+table.CForm_ViewItem tbody tr td.label,
+table.CForm_AddItemForm tbody tr td.input,
+table.CForm_AddItemForm tbody tr td.label,
+table.CForm_ViewItesmGrid tbody tr td.input,
+table.CForm_ViewItesmGrid tbody tr td.label { text-align:right; padding:5px 30px 5px 30px; }
+
+table.CForm_additem_2 tbody tr td.input { text-align:right; padding:5px; }
+table.CForm_additem_2 tbody tr td.label { text-align:right; padding:5px; background:#EEE; }
+
+table.CForm_FilterToolbar tr th,
+table.CForm_FilterToolbar tr td { padding:3px 10px 3px 10px}
+
+table.CForm_FilterToolbar select,
+table.CForm_FilterToolbar input { margin:2px 1px 5px 2px}
+
+
+
+table.CForm_ViewItem tbody tr td.label,
+table.CForm_AddItemForm tbody tr td.label,
+table.CForm_additem_2 tbody tr td.label,
+table.CForm_ViewItesmGrid tbody tr td.label { font-weight:bold }
+
+
+
+
+table.CForm_ViewItem tbody tr.row1 td,
+table.CForm_AddItemForm tbody tr.row1 td,
+table.CForm_additem_2 tbody tr.row1 td,
+table.CForm_ViewItesmGrid tbody tr.row1 td { background: #f9f9f9; border-top: 1px solid #FFF; }
+
+table.CForm_ViewItem tfoot tr,
+table.CForm_AddItemForm tfoot tr,
+table.CForm_additem_2 tfoot tr,
+table.CForm_ViewItesmGrid tfoot tr { text-align: center;  color: #333; 
+-moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; border-bottom-left-radius: 4px;
+-moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; border-bottom-right-radius: 4px;
+}
+
+table.CForm_AddItemForm tfoot td,
+table.CForm_AddItemForm tfoot th,
+table.CForm_additem_2 tfoot td,
+table.CForm_additem_2 tfoot th,
+table.CForm_ViewItesmGrid tfoot td,
+table.CForm_ViewItesmGrid tfoot th { background-color: #f3f3f3; border-top: 1px solid #999; text-align: center; 
+-moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; border-bottom-left-radius: 4px;
+-moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; border-bottom-right-radius: 4px;}
+
+table.CForm_AddItemForm tfoot td.sum,
+table.CForm_AddItemForm tfoot th.sum,
+table.CForm_additem_2 tfoot td.sum,
+table.CForm_additem_2 tfoot th.sum,
+table.CForm_ViewItesmGrid tfoot td.sum,
+table.CForm_ViewItesmGrid tfoot th.sum {
+	font-weight:bold;
+	padding:5px 7px 5px 7px;
+}
+
+.banner
+{
+	display:block;
+    margin:auto;
+	margin-top:-25px;
+	width:350px;	
+}
+.date
+{
+	border:0px #F9C solid;
+	margin: -27px 10px 0px 0px;
+	width:250px;
+	text-align:right;
+}
+.IP
+{
+	border:0px #F9C solid;
+	margin: 5px 260px 0px 0px;
+	width:180px;
+	text-align:left;
+}
+.title
+{
+	margin: -70px 0px 0px 0px;
+	min-height:65px;
+	font-size:30px;
+	color:#930;
+	text-shadow: -1px 3px 10px #F90;
+	text-align:center;	
+}
+.specification
+{
+	border:0px #F9C solid;
+	margin: 12px 0px 0px 0px;
+	padding:5px 5px 5px 0px;
+}
+.headline
+{
+	border:0px #F9C solid;
+	margin: 0px 0px 0px 0px;
+	padding-top:6px;
+	width:120px;
+	height:32px;
+	/*vertical-align:middle	*/
+}
+.headinput
+{
+	border:0px #F9C solid;
+	margin: -40px 124px 0px 0px;
+	padding-top:5px;
+	width:320px;
+	height:35px;
+}
+.gap
+{
+	min-height:78px;
+}
+.headinput input,
+.headinput textarea
+{
+  font-size: 1.1em;
+  line-height:140%;
+  color : #000; 
+  padding : 3px; 
+  border : 1px solid #999;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+  height:22px;
+  width:300px;
+}
+
+.headinput textarea
+{
+	overflow:hidden;
+	font-size: 1.0em;
+	height:100px;
+	width:300px;
+}
+
+.headinput input[type="text"]:focus,
+.headinput textarea:focus
+{
+  color : #009;
+  border : 1px solid #990000;
+  background-color : #ffff99;
+  font-weight:bold;
+  box-shadow: 0px 1px 20px #F96;
+}
+
+a.exit
+{
+	margin-right:380px;
+	text-decoration:none;
+	padding: 8px 20px 8px 20px;
+	color:#FFF;
+	background: -webkit-linear-gradient(#CE0000, #9D0000);
+    background: -moz-linear-gradient(#CE0000, #9D0000);
+    background: linear-gradient(#CE0000, #9D0000);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+a.exit:hover
+{
+	color:#FF0;
+	font-size:16px;
+	box-shadow: 0px 1px 20px #00F;
+}
+.tools
+{
+	margin-right:20px;
+	line-height:1.8em;
+}
+.tools p a
+{
+	text-decoration:none;
+	color:#906;
+	font-size:20px;
+}
+.tools a:hover
+{
+	color:#00F;
+	font-size:22px;
+	font-weight:bold;
+	text-shadow: 0px 1px 20px #00F;;
+}
+input[type="submit"],
+input[type="button"]
+{
+	margin: 15px 330px 0px 0px;
+	width:100px;
+	height:35px;
+	color:#FFF;
+	background-color:#F00;
+	background: -webkit-linear-gradient(#CE0000, #9D0000);
+    background: -moz-linear-gradient(#CE0000, #9D0000);
+    background: linear-gradient(#CE0000, #9D0000);
+	border : 0px solid #9D0000;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+a.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover
+{
+	color:#FF0;
+	font-size:16px;
+	box-shadow: 0px 1px 20px #00F;
+}
+.massage-box
+{
+	border:0px #F9C solid;
+	margin: -50px 0px 0px 0px;
+	padding-top:6px;
+	width:320px;
+	min-height:60px;
+	text-align:center;
+	color:#F00;
+	text-shadow:#CCC;	
+}
+.error
+{
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size:12px;
+	color:#F00;
+	direction:rtl;
+}

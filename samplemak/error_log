@@ -1,0 +1,36 @@
+[29-Oct-2020 20:15:35 Asia/Tehran] PHP Fatal error:  Uncaught SoapFault exception: [HTTP] Error Fetching http headers in /home/azmoonpt/public_html/servicepay/samplemak/request.php:13
+Stack trace:
+#0 [internal function]: SoapClient->__doRequest('<?xml version="...', 'https://pec.sha...', 'https://pec.Sha...', 1, 0)
+#1 /home/azmoonpt/public_html/servicepay/samplemak/request.php(13): SoapClient->__call('SalePaymentRequ...', Array)
+#2 {main}
+  thrown in /home/azmoonpt/public_html/servicepay/samplemak/request.php on line 13
+[29-Oct-2020 20:15:36 Asia/Tehran] PHP Fatal error:  Uncaught SoapFault exception: [HTTP] Error Fetching http headers in /home/azmoonpt/public_html/servicepay/samplemak/request.php:13
+Stack trace:
+#0 [internal function]: SoapClient->__doRequest('<?xml version="...', 'https://pec.sha...', 'https://pec.Sha...', 1, 0)
+#1 /home/azmoonpt/public_html/servicepay/samplemak/request.php(13): SoapClient->__call('SalePaymentRequ...', Array)
+#2 {main}
+  thrown in /home/azmoonpt/public_html/servicepay/samplemak/request.php on line 13
+[29-Oct-2020 20:16:03 Asia/Tehran] PHP Fatal error:  SOAP-ERROR: Parsing WSDL: Couldn't load from 'https://pec.shaparak.ir/NewIPGServices/Sale/SaleService.asmx?wsdl' : failed to load external entity "https://pec.shaparak.ir/NewIPGServices/Sale/SaleService.asmx?wsdl"
+ in /home/azmoonpt/public_html/servicepay/samplemak/request.php on line 12
+[29-Oct-2020 20:16:03 Asia/Tehran] PHP Fatal error:  Uncaught SoapFault exception: [WSDL] SOAP-ERROR: Parsing WSDL: Couldn't load from 'https://pec.shaparak.ir/NewIPGServices/Sale/SaleService.asmx?wsdl' : failed to load external entity "https://pec.shaparak.ir/NewIPGServices/Sale/SaleService.asmx?wsdl"
+ in /home/azmoonpt/public_html/servicepay/samplemak/request.php:12
+Stack trace:
+#0 /home/azmoonpt/public_html/servicepay/samplemak/request.php(12): SoapClient->SoapClient('https://pec.sha...', Array)
+#1 {main}
+  thrown in /home/azmoonpt/public_html/servicepay/samplemak/request.php on line 12
+[29-Oct-2020 20:17:01 Asia/Tehran] PHP Fatal error:  SOAP-ERROR: Parsing WSDL: Couldn't load from 'https://pec.shaparak.ir/NewIPGServices/Sale/SaleService.asmx?wsdl' : failed to load external entity "https://pec.shaparak.ir/NewIPGServices/Sale/SaleService.asmx?wsdl"
+ in /home/azmoonpt/public_html/servicepay/samplemak/request.php on line 12
+[29-Oct-2020 20:17:01 Asia/Tehran] PHP Fatal error:  Uncaught SoapFault exception: [WSDL] SOAP-ERROR: Parsing WSDL: Couldn't load from 'https://pec.shaparak.ir/NewIPGServices/Sale/SaleService.asmx?wsdl' : failed to load external entity "https://pec.shaparak.ir/NewIPGServices/Sale/SaleService.asmx?wsdl"
+ in /home/azmoonpt/public_html/servicepay/samplemak/request.php:12
+Stack trace:
+#0 /home/azmoonpt/public_html/servicepay/samplemak/request.php(12): SoapClient->SoapClient('https://pec.sha...', Array)
+#1 {main}
+  thrown in /home/azmoonpt/public_html/servicepay/samplemak/request.php on line 12
+[29-Oct-2020 20:23:20 Asia/Tehran] PHP Fatal error:  SOAP-ERROR: Parsing WSDL: Couldn't load from 'https://pec.shaparak.ir/NewIPGServices/Confirm/ConfirmService.asmx?WSDL' : failed to load external entity "https://pec.shaparak.ir/NewIPGServices/Confirm/ConfirmService.asmx?WSDL"
+ in /home/azmoonpt/public_html/servicepay/samplemak/verify.php on line 43
+[29-Oct-2020 20:23:20 Asia/Tehran] PHP Fatal error:  Uncaught SoapFault exception: [WSDL] SOAP-ERROR: Parsing WSDL: Couldn't load from 'https://pec.shaparak.ir/NewIPGServices/Confirm/ConfirmService.asmx?WSDL' : failed to load external entity "https://pec.shaparak.ir/NewIPGServices/Confirm/ConfirmService.asmx?WSDL"
+ in /home/azmoonpt/public_html/servicepay/samplemak/verify.php:43
+Stack trace:
+#0 /home/azmoonpt/public_html/servicepay/samplemak/verify.php(43): SoapClient->SoapClient('https://pec.sha...', Array)
+#1 {main}
+  thrown in /home/azmoonpt/public_html/servicepay/samplemak/verify.php on line 43

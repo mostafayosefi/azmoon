@@ -1,0 +1,1632 @@
+﻿var searchboxLang = {
+    "tr" : {
+        "ONEWAY": "Tek Yön",
+        "RETURN": "Gidiş - Dönüş",
+        "ONEWAY_UPPER": "TEK YÖN",
+        "RETURN_UPPER": "GİDİŞ - DÖNÜŞ",
+        "DEPARTURE": "KALKIŞ",
+        "ARRIVED": "VARIŞ",
+        "GOING_DATE": "GİDİŞ",
+        "RETURN_DATE": "DÖNÜŞ",
+        "PASSENGERS_UPPER": "YOLCU",
+        "CLASS": "UÇUŞ SINIFI",
+        "SEARCH_BTN": "ARA",
+        "DIRECT": "Aktarmasız",
+        "REFUNDABLE": "İptal Edilebilir",
+        "ADT": "Yetişkin (12 Üzeri)",
+        "CHD": "Çocuk (2-12 Yaş)",
+        "INF": "Bebek (0-2 Yaş)",
+        "SRC": "Yaşlı (65 Üstü)",
+        "STD": "Öğrenci (12-24 Yaş)",
+        "CLOSE": "Kapat",
+        "PASSENGER": "Yolcu",
+        "ECONOMY": "Ekonomi",
+        "COMFORT": "Comfort",
+        "BUSINESS": "Business",
+        "PLEASE_SELECT":"Lütfen Seçiniz",
+        "ERROR": {
+            "departure": "Lütfen Kalkış Havalimanını Seçiniz",
+            "arrived": "Lütfen Varış Havalimanını Seçiniz",
+            "fromdate": "Lütfen Gidiş Tarihini Seçiniz",
+            "todate": "Lütfen Varış Tarihini Seçiniz",
+        }
+    },
+    "en": {
+        "ONEWAY": "One way",
+        "RETURN": "Roudtrip",
+        "ONEWAY_UPPER": "ONE WAY",
+        "RETURN_UPPER": "ROUND TRIP",
+        "DEPARTURE": "DEPARTURE",
+        "ARRIVED": "ARRIVAL",
+        "GOING_DATE": "FROM DATE",
+        "RETURN_DATE": "RETURN DATE",
+        "PASSENGERS_UPPER": "PASSENGER",
+        "CLASS": "CABIN CLASS",
+        "SEARCH_BTN": "SEARCH",
+        "DIRECT": "Non-Stop",
+        "REFUNDABLE": "Refundable",
+        "ADT": "Adult (12 and over)",
+        "CHD": "Children (2-12 Age)",
+        "INF": "İnfant (0-2 Age)",
+        "SRC": "Senior (65 and over)",
+        "STD": "Student (12-24 Age)",
+        "CLOSE": "Close",
+        "PASSENGER": "Passenger",
+        "ECONOMY": "Economy",
+        "COMFORT": "Comfort",
+        "BUSINESS": "Business",
+        "PLEASE_SELECT": "Please Choose",
+        "ERROR":{
+            "departure": "Please select your departure airport",
+            "arrived": "Please select your arrival airport",
+            "fromdate": "Please select your departure date",
+            "todate": "Please select your arrival date",
+        }
+    }
+};
+var passengerError = {
+    'tr': {
+        'maxPassenger': 'Bir seferde bebek hariç en fazla 7 yolcu için işlem yapılabilir.',
+        'maxInf': 'Bebek yolcu sayısı, yetişkin ve 65 yaş üstü yolcu sayılarının toplamından fazla olamaz.',
+        'minPasseger': 'Yolculuklarınızda en az 1 adet yetişkin, öğrenci ya da 65 yaş üstü yolcu bulunmalıdır.',
+        'label': 'Yolcu'
+    }   , 
+    'en': {
+        'maxPassenger': 'You can only process for 7 travellers at a time except for infants.',
+        'maxInf': "The number of infant travellers can't be more than the number of adult and elderly travellers combined.",
+        'minPasseger': 'There must be at least 1 adult, 1 student or +65 year elderly traveller in your travels.',
+        'label': 'Passengers'
+    }
+}
+var HepStorage;
+var nameOfDays = { 0: 'Pazar', 1: 'Pazartesi', 2: 'Salı', 3: 'Çarşamba', 4: 'Perşembe', 5: 'Cuma', 6: 'Cumartesi' };
+var nameOfMonth = { 1: 'Ocak', 2: 'Şubat', 3: 'Mart', 4: 'Nisan', 5: 'Mayıs', 6: 'Haziran', 7: 'Temmuz', 8: 'Ağustos', 9: 'Eylül', 10: 'Ekim', 11: 'Kasım', 12: 'Aralık' };
+var airline_cdn = 'https://cdn.hepfly.com/assets/images/airline_logos/{0}.png';
+var airline_mobilecdn = 'https://cdn.hepfly.com/assets/images/airline_mobile_logos/{0}.png';
+var getCityAndAirport = '/Search/GetCityAndAirport';
+var flightType = { OneWay: 'OW', Return: 'RT' };
+var topAirportList = JSON.parse('[{"label":"İstanbul, Türkiye (Tümü)","value":"İstanbul, Türkiye (Tümü)","code":"IST-ALL","countrycode":"TR","citycode":"IST","type":"populer"},{"label":"Ankara, Türkiye (Esenboga)","value":"Ankara, Türkiye (Esenboga)","code":"ESB","countrycode":"TR","citycode":"ANK","type":"populer"},{"label":"İzmir, Türkiye (Adnan Menderes)","value":"İzmir, Türkiye (Adnan Menderes)","code":"ADB","countrycode":"TR","citycode":"IZM","type":"populer"},{"label":"Adana, Türkiye (Sakirpasa)","value":"Adana, Türkiye (Sakirpasa)","code":"ADA","countrycode":"TR","citycode":"ADA","type":"populer"},{"label":"Antalya, Türkiye (Antalya)","value":"Antalya, Türkiye (Antalya)","code":"AYT","countrycode":"TR","citycode":"AYT","type":"populer"}]');
+var classType = {
+    'Economy': 'Ekonomi',
+    'Comfort': 'Comfort',
+    'Business': 'Business'
+};
+$(document).ready(function () {
+    //Language
+    languageKey = 'tr';
+    if (typeof Cookies.get('NG_TRANSLATE_LANG_KEY') != 'undefined') {
+        languageKey = Cookies.get('NG_TRANSLATE_LANG_KEY');
+    }
+    $.each(searchboxLang[languageKey], function (i, e) {
+       // $('.searchbox').find('*[data-trans=' + i + ']').html(e);
+        if (i == "ERROR") {
+            $.each(e, function (ii, ee) {
+                $('.' + ii).find('*[data-msg-required]').data('msg-required',ee);
+            });
+        }
+    });
+
+    function trToEng(str) {
+        str = str.replace(/ı/g, "i");
+        str = str.replace(/ğ/g, "g");
+        str = str.replace(/ü/g, "u");
+        str = str.replace(/ş/g, "s");
+        str = str.replace(/ö/g, "o");
+        str = str.replace(/ç/g, "c");
+        str = str.replace(/İ/g, "I");
+        str = str.replace(/Ğ/g, "G");
+        str = str.replace(/Ü/g, "U");
+        str = str.replace(/Ş/g, "S");
+        str = str.replace(/Ö/g, "O");
+        str = str.replace(/Ç/g, "C");
+        return str;
+    }
+    var reponsiveLimit = 750;
+    HepStorage = Storages.localStorage;
+    try {
+        Storages.localStorage.set('check', true);
+        HepStorage = Storages.localStorage;
+    }
+    catch (err) {
+        HepStorage = Cookies;
+        HepStorage.isSet = function (name) {
+            if (typeof HepStorage.get(name) == 'undefined' || HepStorage.get(name) == '') {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        HepStorage.oldGet = HepStorage.get;
+        HepStorage.get = function (name) {
+            if (typeof HepStorage.oldGet(name) == 'undefined' || HepStorage.oldGet(name) == '') {
+                return false;
+            } else {
+                return JSON.parse(HepStorage.oldGet(name));
+            }
+        }
+    }
+    jQuery.extend({
+        getQueryParameters: function (str) {
+            var result = (document.location.search).replace(/(^\?)/, '').split("&").map(function (n) { return n = n.split("="), this[n[0]] = n[1], this }.bind({}))[0];
+            return typeof str == 'undefined' ? result : result[str];
+        }
+    });
+    var userLocation = [];
+    if (HepStorage.isSet('searchData')) {
+        var searchData = HepStorage.get('searchData');
+        var fromDate = searchData.fromDate.split('-');
+        var toDate = searchData.toDate.split('-');
+        if (fromDate[2].length != 4 || (searchData.toDate != '' && toDate[2].length != 4)) {
+            HepStorage.remove('searchData');
+        }
+    }
+    $.validator.setDefaults({
+        ignore: [],
+    });
+    if (!HepStorage.isSet('Pnr') || !$.isPlainObject(HepStorage.get('Pnr'))) {
+        HepStorage.set('Pnr', '{}');
+    }
+    if (HepStorage.isSet('Pnr')) {
+        var data = HepStorage.get('Pnr');
+        $.each(data, function (i, e) {
+            $('input[data-type=' + i + ']').val(e);
+        });
+    }
+    window.isMobile = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()) && $(window).width() <= 750);
+    Number.prototype.formatMoney = function (c, d, t) {
+        var n = this,
+            c = isNaN(c = Math.abs(c)) ? 2 : c,
+            d = d == undefined ? "." : d,
+            t = t == undefined ? "," : t,
+            s = n < 0 ? "-" : "",
+            i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+            j = (j = i.length) > 3 ? j % 3 : 0;
+        return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+    };
+    //UcakBileti PopUp Function
+    var flyPopJs = (function () {
+        function flyPopJs(element) {
+            var self = this;
+            this.init(element);
+            var buttonFunctions = [];
+        }
+
+        var beforeOpenData = "";
+        var whenLoadData = "";
+        var beforeCloseData = "";
+        var afterCloseData = "";
+        var btnCloseData = "";
+        flyPopJs.prototype = {
+            init: function (element) {
+                if (!$('#ucakPopup').length) {
+                    var loader = '<div class="loader"><div class="loader-inner"><label>●</label><label>●</label><label>●</label><label>●</label><label>●</label></div><div class="loading_text"></div></div>';
+                    $('body').append('<div id="ucakPopup">' + loader + '<div class="container"><div class="head"><div class="title"></div><div class="close_btn">X</div></div><div class="content"></div></div></div>');
+                }
+                this.$that = $(element);
+                this.$container = $(element).find('.container');
+                this.$div = $(element).find('.container').find('.content');
+                this.$title = $(element).find('.container').find('.head .title');
+                this.$close_btn = $(element).find('.container').find('.head .close_btn');
+                this.$loader = $(element).find('.loader');
+                var PwhenLoad = this.whenLoad;
+                var PbeforeOpen = this.beforeOpen;
+                var PafterClose = this.afterClose;
+                var that = this;
+                $('#ucakPopup').click(function () {
+                    if ($('#ucakPopup .container .head .close_btn').is(':visible')) {
+                        that.close();
+                    }
+                });
+                $('#ucakPopup .container .head .close_btn').click(function () {
+                    that.close();
+                });
+                $('#ucakPopup .container').click(function (e) { e.stopPropagation(); });
+            },
+
+            open: function (x) {
+                $('body').addClass('lock');
+                this.$container.attr('class', 'container');
+                if (beforeOpenData != "") { this.beforeOpen(); }
+                if (typeof x.closeBtn == "undefined") { x.closeBtn = true; }
+                if (x.beforeOpen) { beforeOpenData = x.beforeOpen }
+                if (x.whenLoad) { whenLoadData = x.whenLoad }
+                if (x.afterClose) { afterCloseData = x.afterClose }
+                if (x.beforeClose) { beforeCloseData = x.beforeClose }
+                if (x.btnClose) { btnCloseData = x.btnClose }
+                if (!x.closeBtn) {
+                    this.$close_btn.hide();
+                } else {
+                    this.$close_btn.show();
+                }
+                this.$that.show();
+                //z $('body').addClass('lock');
+                if (this.$that.hasClass('loaded')) {
+                    this.close();
+                    this.$that.show();
+                }
+                if (typeof x.title != "undefined" && x.title != null) {
+                    this.$title.html(x.title);
+                }
+                this.$container.addClass(x.classes);
+                if (x.type == "ajax") {
+                    var that = this;
+                    this.$div.load(x.url, function () {
+                        setTimeout(function () {
+                            that.$loader.hide();
+                            that.$container.show();
+                            that.$that.addClass('loaded');
+                        }, 250);
+                    });
+                }
+
+                if (x.type == "iframe") {
+                    this.$container.addClass(x.type);
+                    this.$div.html('<iframe src="' + x.url + '" frameborder="0" style="width:100%; height:100%; border:0"></iframe>');
+                    var that = this;
+                    this.$div.find('iframe').on('load', function (e) {
+                        setTimeout(function () {
+                            that.$container.show();
+                            that.$loader.hide();
+                            that.$that.addClass('loaded');
+                            that.$div.find('iframe').error(function (e) {
+                                that.$div.html('<div class="error">Hata !<br/>' + e + '</div>');
+                            });
+                        }, 250);
+                    });
+                }
+
+                if (x.type == "alert") {
+                    this.$container.addClass(x.type);
+                    if (typeof x.title == "undefined" || x.title == null) {
+                        x.title = 'Bilgi';
+                    }
+                    this.$title.html(x.title);
+                    this.$div.html(x.message);
+                    var that = this;
+                    setTimeout(function () {
+                        that.$container.fadeIn(150);
+                        that.$loader.hide();
+                        that.$that.addClass('loaded');
+                    }, 250);
+                }
+
+                if (x.type == "loading") {
+                    this.$container.addClass(x.type);
+                    $('#ucakPopup .loader .loading_text').html(x.message);
+                    this.$container.hide(1);
+                    this.$loader.show();
+                    this.$that.addClass('loaded');
+                }
+
+                if (x.buttons) {
+                    buttonFunctions = [];
+                    var that = this;
+                    that.$div.append('<br/><br/>');
+                    $.each(x.buttons, function (i, item) {
+                        if (typeof item.Classes == 'undefined') {
+                            item.Classes = 'btn-green';
+                        }
+                        buttonFunctions.push({ Function: item.Function });
+                        that.$div.append('<a style="margin:5px 10px;" href="javascript:buttonFunctions[' + i + '].Function()" class="btn ' + item.Classes + '">' + item.Name + '</a>');
+                    });
+                }
+            },
+            close: function () {
+                $('body').removeClass('lock');
+                this.$that.hide().removeClass();
+                this.$div.html('');
+                this.$container.hide();
+                this.$container.attr('class', 'container');
+                this.$that.removeClass('loaded')
+                this.$loader.show();
+                if (afterCloseData != "") { this.afterClose(); }
+            },
+            beforeOpen: function () {
+
+            },
+            whenLoad: function () {
+                whenLoadData();
+                whenLoadData = '';
+            },
+
+            afterClose: function () {
+                afterCloseData();
+                afterCloseData = '';
+            },
+
+            beforeClose: function () {
+                beforeCloseData();
+                beforeCloseData = '';
+            },
+
+            btnClose: function () {
+                btnCloseData();
+                btnCloseData = '';
+            }
+        }
+        return flyPopJs;
+    })();
+    $.extend({
+        Popup: new flyPopJs('#ucakPopup')
+    });
+    $('#Login').click(function (e) {
+        if ($(e.target).parents('.content').length == 0) {
+            $('#Login').hide();
+        }
+    });
+    $('.iframe[data-url]').on('click', function () { $.Popup.open({ url: $(this).attr('data-url'), type: 'iframe', title: $(this).attr('data-title'), close: true }); });
+    $('.ajax[data-url]').on('click', function () { $.Popup.open({ url: $(this).attr('data-url'), type: 'ajax', title: $(this).attr('data-title'), close: true }); });
+    $('.m-nav,.m-user').not('.notlogin').click(function () {
+        $('.m-nav').toggleClass('open');
+        $('.m-menu').toggleClass('open');
+    });
+    var FlyNotification = (function () {
+        function FlyNotification(element) {
+            var self = this;
+            this.init(element);
+            var that;
+        }
+
+        FlyNotification.prototype = {
+            init: function (element) {
+                var that = this;
+                if ($('#Notification').length < 1) {
+                    $('body').append('<div id="Notification"><div class="text"></div><div class="close">X</div></div>');
+                }
+                $('#Notification .close').click(function (e) { that.close(); });
+            },
+            open: function (x) {
+                var that = this;
+                var setTime;
+                $('#Notification').find('.text').html(x.message);
+                $('#Notification').slideDown();
+                setTime = setTimeout(function () {
+                    $.Notification.close();
+                }, 4000);
+                $('#Notification').hover(function () {
+                    clearTimeout(setTime);
+                });
+                $('#Notification').mouseleave(function () {
+                    setTime = setTimeout(function () {
+                        that.close();
+                    }, 1000);
+                });
+            },
+            close: function () {
+                $('#Notification').slideUp();
+            }
+        }
+        return FlyNotification;
+    })();
+    $.extend({
+        Notification: new FlyNotification('#Notification')
+    })
+
+    //Main Container Height
+    function mainContainerHeight() {
+        var bodyH = $('body').height();
+        var windowH = $(window).height();
+        var headerH = $('.header').outerHeight(true);
+        var footerH = $('.footer').outerHeight(true);
+        if (windowH >= bodyH) {
+            var main = windowH - (headerH + footerH + 40);
+            $('.main_container').height(main);
+        } else {
+            $('.main_container').css('height', 'auto');
+        }
+    }
+
+    //Tabs
+    if ($('.tab-nav').length) {
+        $('.tab-nav .tab-nav-item').click(function () {
+            var nav = $(this).parent('.tab-nav');
+            nav.find('.tab-nav-item').removeClass('active');
+            nav.next('.tabs').find('.content').removeClass('active');
+            $($(this).attr('data-target')).addClass('active');
+            $(this).addClass('active');
+        });
+    }
+    $('.tab-nav .tab-nav-item:nth-child(1)').addClass('active');
+    $('.tabs > div:nth-child(1)').addClass('active');
+
+    //Form Validate
+    function validateTCKN(citizenNo) {
+        citizenNo = String(citizenNo);
+        if (!citizenNo.match(/^[0-9]{11}$/))
+            return false;
+        pr1 = parseInt(citizenNo.substr(0, 1));
+        pr2 = parseInt(citizenNo.substr(1, 1));
+        pr3 = parseInt(citizenNo.substr(2, 1));
+        pr4 = parseInt(citizenNo.substr(3, 1));
+        pr5 = parseInt(citizenNo.substr(4, 1));
+        pr6 = parseInt(citizenNo.substr(5, 1));
+        pr7 = parseInt(citizenNo.substr(6, 1));
+        pr8 = parseInt(citizenNo.substr(7, 1));
+        pr9 = parseInt(citizenNo.substr(8, 1));
+        pr10 = parseInt(citizenNo.substr(9, 1));
+        pr11 = parseInt(citizenNo.substr(10, 1));
+
+        if ((pr1 + pr3 + pr5 + pr7 + pr9 + pr2 + pr4 + pr6 + pr8 + pr10) % 10 != pr11)
+            return false;
+        if (((pr1 + pr3 + pr5 + pr7 + pr9) * 7 + (pr2 + pr4 + pr6 + pr8) * 9) % 10 != pr10)
+            return false;
+        if (((pr1 + pr3 + pr5 + pr7 + pr9) * 8) % 10 != pr11)
+            return false;
+        return true;
+    }
+    $.validator.addMethod('phone', function (phone_number, element) {
+        return this.optional(element) || phone_number.length >= 11 && phone_number.length <= 11 &&
+            phone_number.match(/^(\(?(0)[1-9]{1}\d{1,4}?\)?\s?\d{3,4}\s?\d{3,4})$/);
+    }, 'Lütfen geçerli telefon numarası giriniz');
+    $.validator.addMethod('tckimlikno', function (tckimlikno, element) {
+        return this.optional(element) || tckimlikno.length >= 11 && tckimlikno.length <= 11 && validateTCKN(tckimlikno);
+    }, 'Lütfen geçerli bir tckimlik numarasını giriniz');
+    $.validator.addMethod("lettersonly", function (value, element) {
+        return this.optional(element) || /^[a-z wığüşöçĞÜŞÖÇİ]+$/i.test(value);
+    }, "Sadece harf yazılabilir");
+    if ($('form[validate=true]').length) {
+        $("form[validate=true]").each(function (i, e) {
+            $(e).validate({
+                errorPlacement: function (error, element) {
+                    $(element).parents('.form-group').find('.form-group-error').html(error);
+                    $(element).parents('.form-group').find('.mobil').addClass('error');
+                    $('.form-group-error').on("click", function () {
+                        $(this).hide();
+                        $(this).parents('.form-group').find('input').focus();
+                    });
+                    setTimeout(function () {
+                        $(element).parents('.form-group').find('.form-group-error span .form-error').fadeOut();
+                        $(element).parents('.form-group').find('.mobil').removeClass('error');
+                    }, 3000)
+                },
+                wrapper: 'span',
+                errorElement: "span",
+                errorClass: 'form-error',
+                rules: {
+                    infoType: {
+                        required: true
+                    }
+                }
+            });
+            $.validator.messages.required = 'Bu alanın doldurulması zorunludur.';
+            $.validator.messages.email = 'Geçerli mail girin';
+        });
+    }
+
+    //Back To Top
+    var offset = 300,
+    offset_opacity = 1200,
+    scroll_top_duration = 700,
+    $back_to_top = $('.back-to-top');
+    $(window).scroll(function () {
+        ($(this).scrollTop() > offset) ? $back_to_top.addClass('cd-is-visible') : $back_to_top.removeClass('cd-is-visible cd-fade-out');
+        if ($(this).scrollTop() > offset_opacity) {
+            $back_to_top.addClass('cd-fade-out');
+        }
+    });
+
+    $back_to_top.on('click', function (event) {
+        event.preventDefault();
+        $('body,html').animate({
+            scrollTop: 0,
+        }, scroll_top_duration);
+    });
+
+    //Search Box
+    $(".searchbox input.departure, .searchbox input.arrived").each(function (i, e) {
+        var parent = $(e).parent('.form-group');
+        var selected = false;
+        $(e).autocomplete({
+            source: function (term, callback) {
+                if (term.term.length < 1) {
+                    var array = [];
+
+                    array = array.concat(userLocation);
+                    var userDestinations = HepStorage.isSet('destinations') ? HepStorage.get('destinations') : null;
+                    if (userDestinations == null) { userDestinations = topAirportList; }
+                    if (userDestinations != null && userDestinations.length > 0) {
+                        if (array.length > 0) {
+                            $.each(userDestinations, function (i, e) {
+                                userDestinations[i].type = 'userTop';
+                                if (array.length > 0 && userDestinations[i].code != array[0].code) {
+                                    array.push(userDestinations[i]);
+                                }
+                            });
+                        } else if (array.length == 0) {
+                            array = array.concat(userDestinations);
+                        }
+                    }
+                    callback(array);
+                } else {
+                    $.getJSON(getCityAndAirport, { 'str': term.term }, function (data) {
+                        if (data.length < 1) {
+                            var array = [];
+                            array = array.concat(userLocation);
+                            var userDestinations = HepStorage.isSet('destinations') ? HepStorage.get('destinations') : null;
+                            if (userDestinations == null) { userDestinations = topAirportList; }
+                            if (userDestinations != null && userDestinations.length > 0) {
+                                if (array.length > 0) {
+                                    $.each(userDestinations, function (i, e) {
+                                        userDestinations[i].type = 'userTop';
+                                        if (array.length > 0 && userDestinations[i].code != array[0].code) {
+                                            array.push(userDestinations[i]);
+                                        }
+                                    });
+                                } else if (array.length == 0) {
+                                    array = array.concat(userDestinations);
+                                }
+                            }
+                            callback(array);
+                            $('#ui-id-' + (i+1)).html('<i style="padding:3px 10px">Sonuç Bulunamadı...</i>').slideDown();
+                        } else {
+                            callback(data);
+                        }
+                    });
+                }
+            },
+            autoFocus: true,
+            classes: {
+                "ui-autocomplete": "insearchbox"
+            },
+            focus: function (event, ui) {
+                $(event.currentTarget).find('li').removeClass('ui-state-hover');
+                $(event.currentTarget).find('li a:contains("' + ui.item.value + '")').parent('li').addClass('ui-state-hover');
+            },
+            minLength: 0,
+            select: function (event, item) {
+                selected = true;
+                $(this).val(item.item.label);
+                parent.find('.code').val(item.item.code);
+                parent.find('.countryCode').val(item.item.countrycode);
+                parent.find('.citycode').val(item.item.citycode);
+                parent.find('.mobil .code').html(item.item.code);
+                parent.find('.mobil .name').html(item.item.label);
+                parent.find('.mobil').removeClass('empty');
+                $(e).blur();
+                return false;
+            },
+            open: function () {
+                if (/iPhone|iPad/i.test(navigator.userAgent)) {
+                    $('.ui-autocomplete').off('menufocus hover mouseover');
+                }
+                var topPos = parseInt($('.ui-autocomplete:visible').css('top'));
+                var leftPos = parseInt($('.ui-autocomplete:visible').css('left'));
+                $(".ui-autocomplete:visible").css({
+                    left: (leftPos + 1) + "px",
+                    top: (topPos - 2) + "px",
+                    width: $(this)[0].getBoundingClientRect().width
+                });
+            },
+            close: function () {
+                $('body').removeClass('lock');
+                if ($(window).width() <= 550) {
+                    $(e).hide();
+                    $(e).parent('.form-group').find('.clear-input').css('display', 'none');
+                    $('.header').css('display', 'block');
+                    $('.autocomplete-header').css('display', 'none');
+                    $('input.departure').blur();
+                    $('input.arrived').blur();
+                } else {
+                    $(e).show();
+                }
+            }
+        }).on("focus", function () {
+            $(this).autocomplete("search", "");
+        }).autocomplete("instance")._renderItem = function (ul, item) {
+            return $('<li class="' + item.type + '">').append("<a><div>" + item.code.replace('-ALL', '') + "</div>" + item.label + "</a>").appendTo(ul);
+        }
+    });
+    $("input.departure,input.arrived").not(".searchbox input.departure, .searchbox input.arrived").each(function (i, e) {
+        var parent = $(e).parent('.form-group');
+        var selected = false;
+        $(e).autocomplete({
+            source: function (term, callback) {
+                if (term.term.length < 1) {
+                    var array = [];
+                    array = array.concat(userLocation);
+                    var userDestinations = HepStorage.isSet('destinations') ? HepStorage.get('destinations') : null;
+                    if (userDestinations == null) { userDestinations = topAirportList; }
+                    if (userDestinations != null && userDestinations.length > 0) {
+                        if (array.length > 0) {
+                            $.each(userDestinations, function (i, e) {
+                                userDestinations[i].type = 'userTop';
+                                if (array.length > 0 && userDestinations[i].code != array[0].code) {
+                                    array.push(userDestinations[i]);
+                                }
+                            });
+                        } else if (array.length == 0) {
+                            array = array.concat(userDestinations);
+                        }
+                    }
+                    callback(array);
+                } else {
+                    $.getJSON(getCityAndAirport, { 'str': term.term }, function (data) {
+                        if (data.length < 1) {
+                            var array = [];
+                            array = array.concat(userLocation);
+                            var userDestinations = HepStorage.isSet('destinations') ? HepStorage.get('destinations') : null;
+                            if (userDestinations == null) { userDestinations = topAirportList; }
+                            if (userDestinations != null && userDestinations.length > 0) {
+                                if (array.length > 0) {
+                                    $.each(userDestinations, function (i, e) {
+                                        userDestinations[i].type = 'userTop';
+                                        if (array.length > 0 && userDestinations[i].code != array[0].code) {
+                                            array.push(userDestinations[i]);
+                                        }
+                                    });
+                                } else if (array.length == 0) {
+                                    array = array.concat(userDestinations);
+                                }
+                            }
+                            callback(array);
+                        } else {
+                            callback(data);
+                        }
+                    });
+                }
+            },
+            autoFocus: false,
+            classes: {
+                "ui-autocomplete": ""
+            },
+            focus: function (event, ui) {
+                $(event.currentTarget).find('li').removeClass('ui-state-hover');
+                $(event.currentTarget).find('li a:contains("' + ui.item.value + '")').parent('li').addClass('ui-state-hover');
+            },
+            minLength: 0,
+            select: function (event, item) {
+                selected = true;
+                $(this).val(item.item.label);
+                parent.find('.code').val(item.item.code);
+                parent.find('.countryCode').val(item.item.countrycode);
+                parent.find('.citycode').val(item.item.citycode);
+                parent.find('.mobil .code').html(item.item.code);
+                parent.find('.mobil .name').html(item.item.label);
+                parent.find('.mobil').removeClass('empty');
+                return false;
+            },
+            open: function () {
+                if ($(window).width() <= 550) {
+                    $('body,html').animate({
+                        scrollTop: $(e).offset().top - 70,
+                    }, 250);
+                }
+                if (/iPhone|iPad/i.test(navigator.userAgent)) {
+                    $('.ui-autocomplete').off('menufocus hover mouseover');
+                }
+                var topPos = parseInt($('.ui-autocomplete:visible').css('top'));
+                var leftPos = parseInt($('.ui-autocomplete:visible').css('left'));
+                $(".ui-autocomplete:visible").css({
+                    left: leftPos + "px",
+                    top: (topPos - 2) + "px",
+                    width: $(this)[0].getBoundingClientRect().width
+                });
+            },
+            close: function () {
+                $(e).parent('.form-group').find('.clear-input').css('display', 'none');
+                if ($(window).width() >= 550) {
+                    $('input.departure').blur();
+                    $('input.arrived').blur();
+                }
+                return false;
+            }
+        }).on("focus", function () {
+            $(this).autocomplete("search", "");
+        }).autocomplete("instance")._renderItem = function (ul, item) {
+            return $('<li class="' + item.type + '">').append("<a><div>" + item.code.replace('-ALL', '') + "</div>" + item.label + "</a>").appendTo(ul);
+        }
+    });
+    $('input.departure, input.arrived').on('keyup', function () {
+        $(this).parent('.form-group').find('input').not(this).val('');
+        $(this).parent('.form-group').find('.mobil .code').html('');
+        $(this).parent('.form-group').find('.mobil .name').html('');
+        $(this).parent('.form-group').find('.mobil').addClass('empty');
+    });
+    $('input.departure, input.arrived').on('focus', function (e) {
+        //if (!window.isMobile) {
+        this.setSelectionRange(0, 9999);
+        //}
+    });
+    if ($('.searchbox').length) {
+        if (HepStorage.isSet('searchData') && HepStorage.isSet('searchDataTime') && HepStorage.get('searchDataTime') <= (Date.now() - 86400000)) {
+            var searchData = HepStorage.get('searchData');
+            searchData['adt'] = 1;
+            searchData['chd'] = 0;
+            searchData['inf'] = 0;
+            searchData['src'] = 0;
+            searchData['std'] = 0;
+            searchData['mil'] = 0;
+            searchData['promo'] = 0;
+            searchData['cls'] = 'Economy';
+            searchData['directFlights'] = false;
+            HepStorage.set('searchData', searchData);
+        }
+        $('.m-departure,.m-arrived').click(function () {
+            $('body').addClass('lock');
+            $('.header').css('display', 'none');
+            $('.autocomplete-header').css('display', 'block');
+            if ($(this).hasClass('m-departure')) {
+                $('input.departure').show().focus();
+                $('#ui-id-1').slideDown();
+                $('.autocomplete-header .text').html('Nereden');
+                $('input.departure').parent('.form-group').find('.clear-input').css('display', 'block');
+            }
+            if ($(this).hasClass('m-arrived')) {
+                $('input.arrived').show().focus();
+                $('#ui-id-2').slideDown();
+                $('.autocomplete-header .text').html('Nereye');
+                $('input.arrived').parent('.form-group').find('.clear-input').css('display', 'block');
+            }
+        });
+        $('.autocomplete-header .close').click(function () {
+            $('#ui-id-1, #ui-id-2').slideUp();
+            $('.autocomplete-header').slideUp();
+            $('input.departure').blur();
+            $('input.arrived').blur();
+        });
+        //Mobile SearchBox End
+        $('.searchbox .icon-reverse').click(function () {
+            var departureEl = $('#departure');
+            var arrivedEl = $('#arrived');
+            var departure = {};
+            var arrived = {};
+
+            departure.Name = departureEl.val();
+            departure.Code = departureEl.next('.code').val();
+            departure.CityCode = departureEl.next('.code').next('.citycode').val();
+            departure.CountryCode = departureEl.next('.code').next('.citycode').next('.countryCode').val();
+
+            arrived.Name = arrivedEl.val();
+            arrived.Code = arrivedEl.next('.code').val();
+            arrived.CityCode = arrivedEl.next('.code').next('.citycode').val();
+            arrived.CountryCode = arrivedEl.next('.code').next('.citycode').next('.countryCode').val();
+
+
+            departureEl.val(arrived.Name);
+            departureEl.next('.code').val(arrived.Code);
+            departureEl.next('.code').next('.citycode').val(arrived.CityCode);
+            departureEl.next('.code').next('.citycode').next('.countryCode').val(arrived.CountryCode);
+            $('.m-departure').find('.code').html(arrived.Code);
+            $('.m-departure').find('.name').html(arrived.Name);
+
+            arrivedEl.val(departure.Name);
+            arrivedEl.next('.code').val(departure.Code);
+            arrivedEl.next('.code').next('.citycode').val(departure.CityCode);
+            arrivedEl.next('.code').next('.citycode').next('.countryCode').val(departure.CountryCode);
+            $('.m-arrived').find('.code').html(departure.Code);
+            $('.m-arrived').find('.name').html(departure.Name);
+        });
+        $('input[name=flightType]').click(function () {
+            $('.searchbox-header label').removeClass('checked');
+            if ($(this).is(':checked') && $(this).val() == flightType.OneWay) {
+                $('#toDate').parent('.form-group').addClass('disable');
+                $('#toDatex').val('');
+                $('#toDatex').attr('required', false);
+                $('#toDate').val('');
+                $('#toDate').attr('required', false)
+
+                $('.mobil.m-toDate').find('.day').html('');
+                $('.mobil.m-toDate').find('.month').html('');
+                $('.mobil.m-toDate').find('.dayName').html('');
+                $('.icon-reverse').removeClass('RT');
+                $('.searchbox-header label.going').addClass('checked');
+            } else {
+                $('#toDate').parent('.form-group').removeClass('disable');
+                $('#toDate').attr('required', true);
+                $('#toDatex').attr('required', true);
+                $('.icon-reverse').addClass('RT');
+                $('.searchbox-header label.return').addClass('checked');
+            }
+        });
+        $('.datepicker').click(function () {
+            //    //if ($(this).parent('.form-group').hasClass('disable')) {
+            $(this).datepicker('show');
+            //    //}
+        })
+        $('#passenger').on('click focus', function () {
+            $('.passenger-container').show(1);
+            setTimeout(function () { $("#passenger").blur(); }, 50);
+        });
+
+        var con = $('.passenger-container');
+        var pgroup = $('.passenger-container .passenger-group');
+        var errorTime;
+
+        pgroup.find('.minus, .plus').click(function () {
+            if ($(this).hasClass('disabled')) { return false; }
+            var error = false;
+            var errorMsg, newval;
+            var adult = parseInt($('.passenger-container .passenger-group.adult .val').html());
+            var child = parseInt($('.passenger-container .passenger-group.child .val').html());
+            var baby = parseInt($('.passenger-container .passenger-group.baby .val').html());
+            var old = parseInt($('.passenger-container .passenger-group.old .val').html());
+            var student = parseInt($('.passenger-container .passenger-group.student .val').html());
+
+            var totalParent = adult + old + student + child;
+            var total = totalParent + baby;
+            var eClass = $(this).attr('class');
+            var plus = eClass == 'plus' ? true : false;
+            var input = eClass == 'plus' ? $(this).prev('.val') : $(this).next('.val');
+            var type = $(this).parent('.passenger-group').attr('class').split(/\s+/)[1];
+            var val = parseInt(input.html());
+            var newval;
+            var newtotal;
+            if (eClass == 'plus') {
+                newval = val + 1;
+                newtotal = total + 1;
+            } else {
+                newval = val - 1;
+                newtotal = total - 1;
+            }
+            languageKey = 'tr';
+            if (typeof Cookies.get('NG_TRANSLATE_LANG_KEY') != 'undefined') {
+                languageKey = Cookies.get('NG_TRANSLATE_LANG_KEY');
+            }
+            if (plus) {
+                //Plus
+                if (type == 'adult' || type == 'old' || type == 'student' || type == 'child') {
+                    if ((adult + old + student) >= 7) {
+                        error = true;
+                        errorMsg = passengerError[languageKey].maxPassenger;
+                        newval = val;
+                    }
+
+                    if (totalParent >= 7) {
+                        error = true;
+                        errorMsg = passengerError[languageKey].maxPassenger;
+                        newval = val;
+                    }
+                }
+
+                if (baby >= (adult + old) && type == 'baby') {
+                    error = true;
+                    errorMsg = passengerError[languageKey].maxInf;
+                    newval = val;
+                }
+                if (error) { newtotal = total; }
+            } else {
+                //Minus
+                if ((type == 'adult' || type == 'old' || type == 'student') && (totalParent - child) <= 1 && val <= 1) {
+                    error = true;
+                    errorMsg = passengerError[languageKey].minPasseger;
+                    newval = val;
+                }
+
+                if (baby >= (adult + old) && (type == 'adult' || type == 'old')) {
+                    error = true;
+                    errorMsg = passengerError[languageKey].maxInf;
+                    newval = val;
+                }
+
+                if (newval <= 0 && newtotal == 0) {
+                    newval = 1;
+                    newtotal = 1;
+                }
+                if (newval < 0) {
+                    newval = 0;
+                }
+                if (error) { newtotal = total; }
+            }
+
+
+            input.html(newval);
+            if (val == 0 && newval == 1 && plus) {
+                $('.passenger-container .passenger-group.' + type).find('.minus').removeClass('disabled');
+            }
+            if (val == 1 && newval == 0 && !plus) {
+                $('.passenger-container .passenger-group.' + type).find('.minus').addClass('disabled');
+            }
+            $('#passenger').val(newtotal + ' ' + passengerError[languageKey].label);
+            if (error) {
+                clearTimeout(errorTime);
+                $('.passenger-alert').html(errorMsg).slideDown(250)
+                errorTime = setTimeout(function () {
+                    $('.passenger-alert').slideUp();
+                }, 4000);
+            }
+        });
+        $('.passenger-close').click(function () {
+            $('.passenger-container').css('display', 'none');
+        });
+        setTimeout(function () {
+            $('.minus').each(function (i, e) {
+                var val = parseInt($(e).next('.val').html());
+                if (val > 0) {
+                    $(e).removeClass('disabled');
+                } else {
+                    $(e).addClass('disabled');
+                }
+            });
+        }, 300);
+
+        function gotoDate($j, month, year) {
+            $j.each(function (i, el) {
+                var inst = $.datepicker._getInst(el);
+                inst.drawMonth = inst.selectedMonth = month;
+                inst.drawYear = inst.selectedYear = year;
+                $.datepicker._notifyChange(inst);
+                $.datepicker._adjustDate(el);
+            });
+        }
+
+        var dateToday = new Date();
+        var dateYear = dateToday.getFullYear();
+        var dateMounth = dateToday.getMonth();
+        var datepickers = [];
+        $('.datepicker').each(function (i, e) {
+            datepickers[i] = $(this).datepicker({
+                //dateFormat: "dd-mm-yy",
+                dateFormat: "d MM, DD",
+                altField: '#' + $(this).next('input[type=hidden]').attr('id'),
+                altFormat: "dd-mm-yy",
+                showAnim: '',
+                numberOfMonths: 2,
+                gotoCurrent: true,
+                minDate: 0,
+                duration: 'fast',
+                maxDate: '+11M +20D ',
+                beforeShow: function (el, data) {
+                    $('#smartbanner').remove();
+                    var that = el;
+                    if ($(window).width() <= reponsiveLimit) {
+                        $('.datepicker-header').css('display', 'block');
+                        $('#ui-datepicker-div').addClass('active');
+                        $('body').addClass('lock');
+                        if (data.id == "toDatex") {
+                            $('.datepicker-header .arrivedDate').addClass('active');
+                            $('.datepicker-header .departureDate').removeClass('active');
+                        }
+                        if (data.id == "fromDatex") {
+                            $('.datepicker-header .departureDate').addClass('active');
+                            $('.datepicker-header .arrivedDate').removeClass('active');
+                        }
+                        setTimeout(function () { gotoDate($(el), dateMounth, dateYear); }, 50);
+                    }
+                    setTimeout(function () { $(el).blur(); }, 100);
+                },
+                onSelect: function (selectedDate, obj) {
+                    var toDatex = $('#toDatex').val();
+                    var toDate = $('#toDate').val();
+
+                    selectedDate = $("input[id='" + obj.id + "']").next().val();
+                    if (this.id == "toDatex") {
+                        $('#flightOption1').prop("checked", true);
+                        $('.searchbox-header label').removeClass('checked');
+                        $('.searchbox-header .return').addClass('checked');
+                        $('#toDate').parent('.form-group').removeClass('disable');
+                        $('#toDate').attr('required', true);
+                        var parseSelectedDate = selectedDate.split("-");
+                        $('.m-toDate .date .day').html(parseSelectedDate[0]);
+                        $('.m-toDate .date .text .month').html(nameOfMonth[parseInt(parseSelectedDate[1])]);
+                        $('.m-toDate .date .text .dayName').html(nameOfDays[new Date(parseSelectedDate.reverse().join("-") + 'T00:00:00').getDay()]);
+                    }
+                    if (this.id == "fromDatex") {
+                        var instance = $('#fromDatex').data("datepicker");
+                        var date = $.datepicker.parseDate(instance.settings.altFormat, selectedDate);
+                        var to = new Date($('#toDate').val().split('-').reverse().join('-') + 'T00:00:00');
+                        datepickers[1].not('#fromDatex').datepicker("change", { minDate: date });
+                        if (to < date) {
+                            var tDay = date.getDate().toString().length == 1 ? '0' + date.getDate().toString() : date.getDate().toString();
+                            $('.m-toDate .date .day').html(tDay);
+                            $('.m-toDate .date .text .month').html(nameOfMonth[date.getMonth() + 1]);
+                            $('.m-toDate .date .text .dayName').html(nameOfDays[date.getDay()]);
+                        } else {
+                            $('#toDatex').val(toDatex);
+                            $('#toDate').val(toDate);
+                        }
+                        var parseSelectedDate = selectedDate.split("-");
+                        $('.m-fromDate .date .day').html(parseSelectedDate[0]);
+                        $('.m-fromDate .date .text .month').html(nameOfMonth[parseInt(parseSelectedDate[1])]);
+                        $('.m-fromDate .date .text .dayName').html(nameOfDays[new Date(parseSelectedDate.reverse().join("-") + 'T00:00:00').getDay()]);
+                    }
+
+
+                    if ($(window).width() <= reponsiveLimit) {
+                        $('.datepicker-header').slideUp();
+                        $('#ui-datepicker-div').removeClass('active');
+                    }
+                },
+                onClose: function () {
+                    if ($(window).width() <= reponsiveLimit) {
+                        $('body').removeClass('lock');
+                    }
+                }
+            });
+        });
+
+        if ($('input.departure').val() == '' && $('input.arrived').val() == '' && HepStorage.isSet('searchData')) {
+            var localData = HepStorage.get('searchData');
+            var total = 0;
+            $.each(localData, function (name, val) {
+                if (name == 'flightType') {
+                    $('input[name=flightType][value=' + val + ']').click();
+                } else if (name == 'fromDate') {
+                    var fromDate = val.split('-').reverse().join('-');
+                    if (new Date(fromDate) < Date.now()) {
+                        var now = new Date();
+                        var day = now.getDate().toString().length == 1 ? "0" + now.getDate().toString() : now.getDate().toString();
+                        var month = (now.getMonth() + 1).toString().length == 1 ? "0" + (now.getMonth() + 1).toString() : (now.getMonth() + 1).toString();
+                        val = day + '-' + month + '-' + now.getFullYear();
+                        localData['fromDatex'] = day + ' ' + nameOfMonth[(now.getMonth() + 1)] + ', ' + nameOfDays[now.getDay()];
+                    } 
+
+                    $('*[name=' + name + ']').val(val);
+                    var parseSelectedDate = val.split("-");
+                    $('.m-fromDate .date .day').html(parseSelectedDate[0]);
+                    $('.m-fromDate .date .text .month').html(nameOfMonth[parseInt(parseSelectedDate[1])]);
+                    $('.m-fromDate .date .text .dayName').html(nameOfDays[new Date(parseSelectedDate.reverse().join("-") + 'T00:00:00').getDay()]);
+                    $('#fromDate').datepicker("setDate", new Date(parseInt(parseSelectedDate[0]), parseInt(parseSelectedDate[1]) - 1, parseInt(parseSelectedDate[2])));
+
+                } else if (name == 'toDate') {
+                    var toDate = val.split('-').reverse().join('-');
+                    if (new Date(toDate) < Date.now()) {
+                        var now = new Date();
+                        var day = now.getDate().toString().length == 1 ? "0" + now.getDate().toString() : now.getDate().toString();
+                        var month = (now.getMonth() + 1).toString().length == 1 ? "0" + (now.getMonth() + 1).toString() : (now.getMonth() + 1).toString();
+                        val = day + '-' + month + '-' + now.getFullYear();
+                        localData['toDatex'] = day + ' ' + nameOfMonth[(now.getMonth() + 1)] + ', ' + nameOfDays[now.getDay()]
+                    }
+
+                    $('*[name=' + name + ']').val(val);
+                    var parseSelectedDate = val.split("-");
+                    $('.m-toDate .date .day').html(parseSelectedDate[0]);
+                    $('.m-toDate .date .text .month').html(nameOfMonth[parseInt(parseSelectedDate[1])]);
+                    $('.m-toDate .date .text .dayName').html(nameOfDays[new Date(parseSelectedDate.reverse().join("-") + 'T00:00:00').getDay()]);
+                    $('#toDate').datepicker("setDate", new Date(parseInt(parseSelectedDate[0]), parseInt(parseSelectedDate[1]) - 1, parseInt(parseSelectedDate[2])));
+                } else if (name == 'cls') {
+                    $('select[name=' + name + ']').val(val)
+                } else if ((name == 'promo' || name == 'directFlights') && (val && val == 1)) {
+                    $('input[name=' + name + ']').attr('checked', true);
+                } else if ('adt,chd,inf,src,std'.indexOf(name) >= 0) {
+                    if (Date.now() < HepStorage.get('searchTime') + (3600000 * 24)) {
+                        total += parseInt(val);
+                        if (parseInt(val) > 0) {
+                            $('.passenger-group .' + name).html(val);
+                            $('.passenger-group .' + name).prev('.minus').removeClass('disabled');
+                        }
+                    } else {
+                        total = 1;
+                    }
+                } else {
+                    $('input[name=' + name + ']').val(val);
+                    $('div[name=' + name + ']').html(val);
+                    $('.mobil').removeClass('empty');
+                }
+                localData[name] = val;
+            });
+            $('#passenger').val(total + ' Yolcu');
+            var instance = $('#fromDatex').data("datepicker");
+            var date = $.datepicker.parseDate(instance.settings.altFormat, $('#fromDate').val());
+            datepickers[1].datepicker("option", "minDate", date);
+
+            HepStorage.set('searchData', localData);
+        }
+
+        $('.searchbox .btn-group .btn').click(function () {
+            if (!$('.searchbox .searchForm').valid()) { $('.searchbox .form-group').find('.form-group-error').show(); return false; }
+            var $postData = {};
+            $postData['departure'] = $('input[name=departure]').val();
+            $postData['from'] = $('input[name=from]').val();
+            $postData['fromCountry'] = $('input[name=fromCountry]').val();
+            $postData['fromCity'] = $('input[name=fromCity]').val();
+            $postData['arrived'] = $('input[name=arrived]').val();
+            $postData['to'] = $('input[name=to]').val();
+            $postData['toCountry'] = $('input[name=toCountry]').val();
+            $postData['toCity'] = $('input[name=toCity]').val();
+
+            $postData['fromDate'] = $('#fromDate').val();
+            $postData['toDate'] = $('#toDate').val();
+            $postData['fromDatex'] = $('#fromDatex').val();
+            $postData['toDatex'] = $('#toDatex').val();
+            $postData['adt'] = parseInt($('.passenger-container .passenger-group.adult .val').html());
+            $postData['chd'] = parseInt($('.passenger-container .passenger-group.child .val').html());
+            $postData['inf'] = parseInt($('.passenger-container .passenger-group.baby .val').html());
+            $postData['src'] = parseInt($('.passenger-container .passenger-group.old .val').html());
+            $postData['std'] = parseInt($('.passenger-container .passenger-group.student .val').html());
+            $postData['mil'] = 0;
+            $postData['promo'] = $('input#promo').is(':checked') ? 1 : 0;
+            $postData['cls'] = $('select[name=cls] option:selected').val();
+            $postData['directFlights'] = $('input#directFlights').is(':checked') ? true : false;
+            $postData['flightType'] = $('input[name=flightType]:checked').val();
+            //$postData['preferredAirline'] = null;
+            $postData['UserAgentInfo'] = navigator.userAgent;
+            if (($postData['fromCity'] == $postData['toCity'] && $postData['fromCity'] != '')) {
+                $.Popup.open({
+                    type: 'alert',
+                    message: 'Lütfen farklı şehirler seçiniz.',
+                    buttons: [
+                                {
+                                    Name: 'Tamam',
+                                    Function: function () {
+                                        $.Popup.close();
+                                    }
+                                }
+                    ]
+                });
+                return false;
+            }
+
+            var localDestinations = HepStorage.get('destinations') == null ? [] : HepStorage.get('destinations');
+            var rLocalDestinations = [];
+            $.each(localDestinations, function (i, e) {
+                if (e.code == $postData.from) {
+                    delete localDestinations[i]
+                }
+                if (e.code == $postData.to) {
+                    delete localDestinations[i]
+                }
+            });
+            $.each(localDestinations, function (i, e) {
+                if (e != null) {
+                    rLocalDestinations.push(e);
+                }
+            });
+            rLocalDestinations.push({
+                "label": $postData.departure,
+                "value": $postData.departure,
+                "code": $postData.from,
+                "countrycode": $postData.fromCountry,
+                "citycode": $postData.fromCity,
+                "type": 'userTop'
+            });
+            rLocalDestinations.push({
+                "label": $postData.arrived,
+                "value": $postData.arrived,
+                "code": $postData.to,
+                "countrycode": $postData.toCountry,
+                "citycode": $postData.toCity,
+                "type": 'userTop'
+            });
+
+            rLocalDestinations = rLocalDestinations.reverse().slice(0, 4);
+
+            HepStorage.set('newSearch', true);
+            HepStorage.set('searchDataTime', Date.now());
+            HepStorage.set('searchData', $postData);
+            HepStorage.set('destinations', rLocalDestinations);
+
+            var request = {};
+            request['request'] = $postData;
+
+            if (window.location.pathname == "/ucuslar") {
+                angular.element('#html').scope().searchFunction(request);
+                return false;
+            }
+            window.location.href = "/ucuslar";
+        });
+
+        $('.toggle-search').click(function () {
+            $(this).prev('.searchbox').slideDown();
+            $(this).css('display', 'none');
+        });
+    }
+
+    $('.departureDate').click(function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        console.log('a');
+        $(this).addClass('active');
+        $('.arrivedDate').removeClass('active');
+        $("#fromDatex.datepicker").datepicker("refresh");
+        setTimeout(function () { $("#fromDatex.datepicker").blur(); }, 50);
+    });
+
+    $('.arrivedDate').click(function (e) {
+        e.stopPropagation();
+        $(this).addClass('active');
+        $('.departureDate').removeClass('active');
+        $("#toDatex.datepicker").datepicker("refresh");
+        setTimeout(function () { $("#toDatex.datepicker").blur(); }, 50);
+    });
+
+    $('.datepicker-header .datepicker-close').click(function () {
+        $(".datepicker").datepicker("hide");
+        $('#ui-datepicker-div').removeClass('active');
+        $(".datepicker-header").slideUp();
+    });
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 0) {
+            $('body').addClass('scroll');
+        } else {
+            $('body').removeClass('scroll');
+        }
+    });
+
+    //Responsive Airlines Logos Replace
+    $(window).resize(function () {
+        if ((reponsiveLimit - $(window).width()) > 0 && (reponsiveLimit - $(window).width()) < 5) {
+            $('.airline_logo').each(function (i, item) {
+                var logo = $(item).attr('data-logo');
+                $(item).attr('src', airline_mobilecdn.replace('{0}', logo));
+            });
+
+            //Responsive Search Set Mounth Count
+            $('.datepicker').datepicker("option", "numberOfMonths", 12);
+            $('.ui-datepicker').on('mouseleave', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                return false;
+            });
+
+            $('.main_container').addClass('slim-search');
+        } else if (($(window).width() - reponsiveLimit) > 0 && ($(window).width() - reponsiveLimit) < 5) {
+            $('.airline_logo').each(function (i, item) {
+                var logo = $(item).attr('data-logo');
+                $(item).attr('src', airline_cdn.replace('{0}', logo));
+            });
+            $('.datepicker').datepicker("option", "numberOfMonths", 2);
+            $('.main_container').removeClass('slim-search');
+        }
+    });
+
+    if ($(window).width() <= reponsiveLimit) {
+        $('.main_container').removeClass('slim-search');
+    }
+    if ($(window).width() <= reponsiveLimit) {
+        FastClick.attach(document.body);
+        $('.datepicker').off('menufocus hover mouseover');
+        $('.datepicker').click(function () {
+            //if ($(this).parent('.form-group').hasClass('disable')) {
+            $(this).datepicker('show');
+            //}
+        })
+        $('.airline_logo').each(function (i, item) {
+            var logo = $(item).attr('data-logo');
+            $(item).attr('src', airline_mobilecdn.replace('{0}', logo));
+        });
+        $('.datepicker').datepicker("option", "numberOfMonths", 12);
+        $('.datepicker').datepicker().on('mouseleave', function (e) {
+            e.preventDefault();
+            return false;
+        });
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 0) {
+                $('body').addClass('scroll');
+            } else {
+                $('body').removeClass('scroll');
+            }
+        });
+
+        $('.form-group input').each(function (i, e) {
+            if ($(e).val() == "") {
+                $(e).parent('.form-group').find('.clear-input').hide();
+            }
+        });
+
+        $('.form-group input').focus(function () {
+            if ($(this).val() != "") {
+                $(this).parent('.form-group').find('.clear-input').show();
+            }
+        });
+
+        $('.form-group input').blur(function () {
+            if ($(this).val() == "") {
+                $(this).parent('.form-group').find('.clear-input').hide();
+            }
+        });
+        $('.form-group .clear-input').click(function () {
+            $(this).parent('.form-group').find('input').val('').focus();
+            return false;
+        });
+    } else {
+        $('html').click(function () {
+            $('.searchbox .passenger-container').css('display', 'none');
+        });
+
+        $('.passenger-container, .passenger, .datepicker, .ui-datepicker').click(function (event) {
+            event.stopPropagation();
+            var classes = $(this).attr('class').split(' ');
+            if ('passenger-container passenger'.indexOf(classes[0]) >= 0) {
+                $.datepicker._hideDatepicker();
+            }
+            if ('datepicker ui-datepicker'.indexOf(classes[1]) >= 0) {
+                $('.passenger-container').css('display', 'none');
+            }
+
+        });
+    }
+    //Gclid
+    var gclid = $.getQueryParameters('gclid');
+    var oneDay = (60 * 24 * 60000);
+    if (typeof gclid != 'undefined') {
+        if (localStorage.isSet('gclid')) {
+            var gclidObj = HepStorage.get('gclid');
+            if ((gclidObj.time + oneDay) < new Date().getTime()) {
+                HepStorage.remove('gclid');
+            }
+            if (gclid != gclidObj.id) {
+                gclidObj = {
+                    'id': gclid,
+                    'time': new Date().getTime()
+                }
+                HepStorage.set('gclid', gclidObj);
+            }
+        } else {
+            gclidObj = {
+                'id': gclid,
+                'time': new Date().getTime()
+            }
+            HepStorage.set('gclid', gclidObj);
+        }
+    }
+
+    var dropdown_ul = $('.destinations').find('ul');
+    dropdown_ul.find('.dropdown').click(function () {
+        var ul = $(this).parent('ul');
+        if (ul.hasClass('active')) {
+            ul.removeClass('active');
+            ul.parent('.six').find('ul').not(ul).removeClass('deactive');
+        } else {
+            ul.addClass('active');
+            ul.parent('.six').find('ul').not(ul).addClass('deactive');
+        }
+    });
+
+    var carousel = $('.carousel');
+    if (carousel.length > 0) {
+        var delay = 7000;
+        var eWidth = carousel.find('.item')[0].getBoundingClientRect().width + ((carousel.find('.item')[0].getBoundingClientRect().width - carousel.find('.item').width()) * 2);
+        var i = 0;
+        var carouselTime;
+        function Carousel() {
+            return setInterval(function () {
+                if (i > 8) {
+                    carousel.find('.item_container').animate({
+                        marginLeft: 0,
+                    }, 1000);
+                    i = 0;
+                } else {
+                    carousel.find('.item_container').animate({
+                        marginLeft: '-=' + eWidth,
+                    }, 1000);
+                    i++;
+                }
+            }, delay);
+        }
+        carouselTime = Carousel();
+        carousel.find('.next').click(function () {
+            i++;
+            if (i > 8) {
+                i = -1;
+            }
+            clearInterval(carouselTime);
+            carousel.find('.item_container').animate({
+                marginLeft: -(eWidth * (i + 1)),
+            }, 250, function () {
+                carouselTime = Carousel();
+            });
+        });
+        carousel.find('.prev').click(function () {
+            i--;
+            if (i <= 0) {
+                i = 9;
+            }
+            clearInterval(carouselTime);
+            carousel.find('.item_container').animate({
+                marginLeft: -(eWidth * (i - 1)),
+            }, 250, function () {
+                carouselTime = Carousel();
+            });
+        });
+    }
+    $('.carousel .item_container .item, .search-item').click(function () {
+        var searchData = $(this).data();
+        var $postData = searchData;
+        $postData['fromCountry'] = searchData.fromcountry;
+        $postData['toCountry'] = searchData.tocountry;
+        $postData['fromCity'] = searchData.fromcity;
+        $postData['toCity'] = searchData.tocity;
+        $postData['fromDate'] = searchData.fromdate.split('-').reverse().join('-');
+        $postData['toDate'] = searchData.todate.split('-').reverse().join('-');
+        $postData['fromDatex'] = searchData.fromdatex;
+        $postData['toDatex'] = searchData.todatex;
+        $postData['directFlights'] = searchData.directflights;
+        $postData['flightType'] = searchData.flighttype;
+        $postData['UserAgentInfo'] = navigator.userAgent;
+        delete $postData.fromcountry;
+        delete $postData.tocountry;
+        delete $postData.fromdate;
+        delete $postData.todate;
+        delete $postData.fromdatex;
+        delete $postData.todatex;
+        delete $postData.directflights;
+        delete $postData.flighttype;
+        delete $postData.fromcity;
+        delete $postData.tocity;
+        try {
+            HepStorage.set('newSearch', true);
+            HepStorage.set('searchDataTime', Date.now());
+            HepStorage.set('searchData', $postData);
+        }
+        catch (err) {
+            //alert(err);
+        }
+        var searchUrl = typeof searchData['utm'] == 'undefined' ? '/ucuslar' : "/ucuslar?" + searchData['utm'];
+        window.location.href = searchUrl;
+    });
+    if ((/iphone|ipod|ipad.*os 5/gi).test(navigator.appVersion)) {
+        window.onpageshow = function (evt) {
+            if (evt.persisted) {
+                document.body.style.display = "none";
+                location.reload();
+            }
+        }
+    }
+
+    $('.new-search, .show-tickets, .reservation, .refund, .pnr-query').find('form .btn').click(function () {
+        var form = $(this).parents('form');
+        if (!form.valid()) { form.find('.form-group-error').show(); return false; }
+        $.Popup.open({ type: 'loading' });
+        if ($(this).hasClass('disable')) { return false; }
+        var that = this;
+        var data = form.serializeFormJSON();
+        var pnrData = HepStorage.get('Pnr') || {};
+        var type = form.find('input').attr('data-type');
+        pnrData[type] = data.Pnr;
+        HepStorage.set('Pnr', pnrData);
+        $.each(data, function (i, e) {
+            data[i] = trToEng(e).toUpperCase();
+        });
+ 
+        if (typeof form.data('ajax') != '') {
+            data.MethodName = form.data('ajax');
+            jQuery.ajax({
+                type: 'POST',
+                url: '/OnlineServices/PnrSearchAjax',
+                data: data,
+                success: function (response) {
+                    if (response.Status) {
+                        if (type == 'Reservation') {
+                            window.location = '/ucuslar#/?pnr=' + data.Pnr;
+                        }else if (type == 'ShowTicket') {
+                            $.fly.doPost(form.attr('action'), data);
+                        } else if (type == 'Refund') {
+                            $.fly.doPost(form.attr('action'), data);
+                        }
+                    } else {
+                        $.Popup.open({ type: 'alert', message: response.Message });
+                    }
+                }
+            });
+        }
+        return false;
+    });
+
+    //Checkin
+    var urlList = {
+        1: { Name: 'THY', Url: 'https://www4.thy.com/onlinecheckin/checkpax.tk?name={Name}&surname={Surname}&pnr={Pnr}' },
+        2: { Name: 'AnadoluJet', Url: 'https://www4.thy.com/onlinecheckin/checkpax.tk?name={Name}&surname={Surname}&pnr={Pnr}' },
+        3: { Name: 'AtlasJet', Url: 'https://online.atlasglb.com/AtlasOnline/onlineCheckIn/passengerList.kk?pnrNo={Pnr}&lastName={Surname}' },
+        4: { Name: 'BoraJet', Url: 'https://borajet.crane.aero/web/ICIPNRSearch.xhtml?PNRNo={Pnr}&name={Name}&surname={Surname}' },
+        5: { Name: 'Sun Express', Url: 'https://www.sunexpress.com/WebCheckIn/web/checkin?mode=webCheckIn&locale=tr&pnrNumber={Pnr}&firstName={Name}&lastName={Surname}' },
+        6: { Name: 'Onur Air', Url: 'https://book.onurair.com/web/ICIPNRSearch.xhtml?PNRNo={Pnr}&name={Name}&surname={Surname}' },
+        7: { Name: 'Pegasus', Url: 'https://mobile.flypgs.com/#/checkin/flights?NAME={Name}&SURNAME={Surname}&PNR={Pnr}&IS_MAIN=true' },
+    }
+    if ($('select.airlines').length > 0) {
+        $.each(urlList, function (i, e) {
+            $('select.airlines').append('<option value="' + i + '">' + e.Name + '</option>');
+        });
+    }
+    $('.checkin').find('input, select').change(function () {
+        if ($('form.checkin').valid()) {
+            var data = $('form.checkin').serializeFormJSON();
+            var url = urlList[data.airline].Url;
+            url = url.replace('{Name}', trToEng(data.Name).toUpperCase()).replace('{Surname}', trToEng(data.SurName).toUpperCase()).replace('{Pnr}', trToEng(data.Pnr).toUpperCase());
+            $('.checkin .btn').attr("href", url).removeClass('hide');
+        } else {
+            $('.checkin .btn').addClass('hide');
+        }
+    })
+
+    //Email Verify
+    if(typeof $.getQueryParameters('Verify') != 'undefined'){
+        var param = $.getQueryParameters('Verify').split('_');
+        jQuery.ajax({
+            type: 'POST',
+            url: '/Account/EmailConfirmation',
+            data: {id:param[0],code:param[1]},
+            success: function (response) {
+                $.Popup.open({
+                    type: 'alert',
+                    message: response.message,
+                    closeBtn: true,
+                    buttons: [
+                        {
+                            Name: 'Tamam',
+                            Function: function () {
+                                $.Popup.close();
+                                location.href = '/'
+                            }
+                        }
+                    ]
+                });
+            }
+        });
+    }
+
+});
+
+//Show Login
+function showLogin(x) {
+    $('#Login').find('.user-forms .content').hide();
+    $('#Login, #Login .container').show();
+    if (x == false) {
+        $('#RegisterForm').show();
+    } else {
+        $('#LoginForm').show();
+    }
+    $('.m-menu,.m-nav').removeClass('open');
+    return false;
+}
+
+function statusChangeCallback(response) {
+    if (response.status === 'connected') {
+        getUserData(response.authResponse.accessToken);
+        console.log('Facebook:' + response.status);
+    } else {
+        console.log('Facebook: Not Connect');
+    }
+}
+
+function checkLoginState() {
+    FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+    });
+}
+
+window.fbAsyncInit = function () {
+    FB.init({
+        appId: '323061494822969',
+        cookie: true, 
+        xfbml: true,  
+        version: 'v2.8' 
+    });
+    FB.getLoginStatus(function (response) {
+        if (response.status != "connected") {
+            statusChangeCallback(response);
+        }
+    });
+};
+
+function fb_login() {
+    FB.login(function (response) {
+        if (response.status === 'connected') {
+            statusChangeCallback(response);
+        }
+        else if (response.status === 'not_authorized') {
+            FB.login();
+        } else {
+            //FB.login();
+        }
+    }, { scope: 'email' });
+}
+
+(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/tr_TR/sdk.js#xfbml=1&version=v2.10&appId=323061494822969";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+function getUserData(accessToken) {
+    FB.api('/me', { fields: 'first_name,last_name,id,email' }, function (response) {
+        response.accessToken = accessToken;
+        jQuery.ajax({
+            type: 'POST',
+            url: '/Account/FacebookCallback',
+            data: { id: response.id, email: response.email, first_name: response.first_name, last_name: response.last_name, accessToken: accessToken },
+            success: function (response) {
+                console.log(response);
+                if (response.status) {
+                    $('#Login').hide();
+                    if (location.hash == "#/bilet-detaylari") {
+                        $('#allocateBtn').click();
+                    } else {
+                        location.reload();
+                    }
+                }
+            }
+        });
+    });
+}

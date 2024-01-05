@@ -1,0 +1,228 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+@font-face {
+  font-family: 'BHoma';
+  src: url('fonts/BHoma.eot?#') format('eot'),  /* IE6–8 */
+       url('fonts/BHoma.woff') format('woff'),  /* FF3.6+, IE9, IE10-11, Chrome6+, Saf5.1+*/
+       url('fonts/BHoma.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+@font-face {
+  font-family: 'BNazanin';
+  src: url('fonts/BNazanin.eot?#') format('eot'),  /* IE6–8 */
+       url('fonts/BNazanin.woff') format('woff'),  /* FF3.6+, IE9, IE10-11, Chrome6+, Saf5.1+*/
+       url('fonts/BNazanin.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+@font-face {
+  font-family: 'BRoya';
+  src: url('fonts/BRoya.eot?#') format('eot'),  /* IE6–8 */
+       url('fonts/BRoya.woff') format('woff'),  /* FF3.6+, IE9, IE10-11, Chrome6+, Saf5.1+*/
+       url('fonts/BRoya.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+@font-face {
+  font-family: 'BTitrBold';
+  src: url('fonts/BTitrBold.eot?#') format('eot'),  /* IE6–8 */
+       url('fonts/BTitrBold.woff') format('woff'),  /* FF3.6+, IE9, IE10-11, Chrome6+, Saf5.1+*/
+       url('fonts/BTitrBold.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+@font-face {
+  font-family: 'BYekan';
+  src: url('fonts/BYekan.eot?#') format('eot'),  /* IE6–8 */
+       url('fonts/BYekan.woff') format('woff'),  /* FF3.6+, IE9, IE10-11, Chrome6+, Saf5.1+*/
+       url('fonts/BYekan.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+.BHoma {
+	font-family: BHoma, Arial, Helvetica, sans-serif;
+}
+
+.BNazanin {
+	font-family: BNazanin, Arial, Helvetica, sans-serif;
+}
+
+.BRoya {
+	font-family: BRoya, Arial, Helvetica, sans-serif;
+}
+
+.BTitrBold {
+	font-family: BTitrBold, Arial, Helvetica, sans-serif;
+}
+
+.BYekan {
+	font-family: BYekan, Arial, Helvetica, sans-serif;
+}
+
+
+*{
+	font-size:15px;
+	margin: 0px;
+	outline: 0px;
+	padding: 0px;
+	direction:rtl;
+}
+
+.main
+{
+	margin:0px auto;
+	margin-top:20px;
+	width:450px;
+	min-height:300px;
+	/*min-height:400px;*/
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	border:2px #F9C solid;
+	padding:10px 14px 5px 14px;
+	box-shadow: 0px 1px 20px #F96;
+}
+.banner
+{
+	display:block;
+    margin:auto;
+	margin-top:-25px;
+	width:350px;	
+}
+.date
+{
+	border:0px #F9C solid;
+	margin: -27px 10px 0px 0px;
+	width:180px;
+	text-align:right;
+}
+.IP
+{
+	border:0px #F9C solid;
+	margin: 5px 260px 0px 0px;
+	width:180px;
+	text-align:left;
+}
+.title
+{
+	margin: -70px 0px 0px 0px;
+	min-height:65px;
+	font-size:30px;
+	color:#930;
+	text-shadow: -1px 3px 10px #F90;
+	text-align:center;	
+}
+.specification
+{
+	border:0px #F9C solid;
+	margin: 12px 0px 0px 0px;
+	padding:5px 5px 5px 0px;
+}
+.headline
+{
+	border:0px #F9C solid;
+	margin: 0px 0px 0px 0px;
+	padding-top:6px;
+	width:120px;
+	height:32px;
+	/*vertical-align:middle	*/
+}
+.headinput
+{
+	border:0px #F9C solid;
+	margin: -40px 124px 0px 0px;
+	padding-top:5px;
+	width:320px;
+	height:35px;
+}
+.gap
+{
+	min-height:78px;
+}
+.headinput input,
+.headinput textarea
+{
+  font-size: 1.1em;
+  line-height:140%;
+  color : #000; 
+  padding : 3px; 
+  border : 1px solid #999;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+  height:22px;
+  width:300px;
+}
+
+.headinput textarea
+{
+	overflow:hidden;
+	font-size: 1.0em;
+	height:100px;
+	width:300px;
+}
+
+.headinput input[type="text"]:focus,
+.headinput textarea:focus
+{
+  color : #009;
+  border : 1px solid #990000;
+  background-color : #ffff99;
+  font-weight:bold;
+  box-shadow: 0px 1px 20px #F96;
+}
+
+input[type="submit"]
+{
+	margin: 15px 330px 0px 0px;
+	width:100px;
+	height:35px;
+	color:#FFF;
+	background-color:#F00;
+	background: -webkit-linear-gradient(#CE0000, #9D0000);
+    background: -moz-linear-gradient(#CE0000, #9D0000);
+    background: linear-gradient(#CE0000, #9D0000);
+	border : 0px solid #9D0000;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+input[type="submit"]:hover
+{
+	color:#FF0;
+	font-size:16px;
+	box-shadow: 0px 1px 20px #00F;
+}
+.massage-box
+{
+	border:0px #F9C solid;
+	margin: -50px 0px 0px 0px;
+	padding-top:6px;
+	width:320px;
+	min-height:60px;
+	text-align:center;
+	color:#F00;
+	text-shadow:#CCC;	
+}
+.error
+{
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size:12px;
+	color:#F00;
+	direction:rtl;
+}
+.footer
+{
+	margin:0px auto;
+	margin-top:15px;
+	width:460px;
+	height:80px;
+	text-align:center;
+	font-size:11px;
+	border : 1px solid #9D0000;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+	box-shadow: 0px 2px 30px #F96;	
+}
