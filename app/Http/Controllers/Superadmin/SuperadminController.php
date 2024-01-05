@@ -4080,7 +4080,32 @@ else{ return redirect('superadmin/sign-in'); }
 							}				
 					
 			
+	
+	public function setting_getwaypayment(){
+		if (Session::has('signsuperadmin')){ 
+			
+			Session::set('nav', 'setting_login'); 
+			
+ $admins = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();	
+			return view('sup.setting_getwaypayment', ['admins' => $admins]);
 
+
+	}	 else{ return redirect('superadmin/sign-in'); }
+				}				
+		
+
+	public function setting_getwaypaymentpost( Request $request ){
+		if (Session::has('signsuperadmin')){ 
+		 
+		 $updatee = \DB::table('setting')->where('id', '=', 1)  ->update(['getway_payment' => $request->getway_payment  ]); 	
+				   
+		$nametr = Session::flash('statust', ' تنظیمات درگاه پرداخت باموفقیت ویرایش شد.');
+		$nametrt = Session::flash('sessurl', 'setting_getwaypayment');
+		return redirect('superadmin/setting_getwaypayment'); 
+		}	else{ return redirect('superadmin/sign-in'); }
+		}
+				
+			
 	
 	public function setting_login(){
 		if (Session::has('signsuperadmin')){ 
@@ -4088,7 +4113,6 @@ else{ return redirect('superadmin/sign-in'); }
 			Session::set('nav', 'setting_login'); 
 			
  $admins = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();	
-
 			return view('sup.setting-login', ['admins' => $admins]);
 
 

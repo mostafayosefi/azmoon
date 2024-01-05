@@ -521,7 +521,7 @@
           
           
  
-          <li class="nav-item   @if((Session::get('nav')=='setting_login')||(Session::get('nav')=='setting_login')) active @endif">
+          <li class="nav-item   @if((Session::get('nav')=='setting_login')||(Session::get('nav')=='setting_getwaypayment')) active @endif">
             <a class="nav-link" data-toggle="collapse" href="#setting" aria-expanded="false"  aria-controls="setting">
               <i class="fa fa-wrench menu-icon"></i>
               <span class="menu-title"> تنظیمات سایت  </span>
@@ -531,6 +531,13 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item "> <a class="nav-link @if(Session::get('nav')=='setting_login') active @endif"
                     href="{{env('APP_URL')}}/superadmin/setting_login">تنظیمات لاگین</a>
+                </li> 
+              </ul>
+            </div>
+            <div class="collapse @if((Session::get('nav')=='setting_getwaypayment')||(Session::get('nav')=='setting_getwaypayment')) active @endif" id="setting">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item "> <a class="nav-link @if(Session::get('nav')=='setting_getwaypayment') active @endif"
+                    href="{{env('APP_URL')}}/superadmin/setting_getwaypayment">تنظیمات درگاه پرداخت</a>
                 </li> 
               </ul>
             </div>

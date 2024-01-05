@@ -225,6 +225,10 @@ Route::get('superadmin/setting_login','SuperadminController@setting_login');
 Route::post('superadmin/setting_login','SuperadminController@setting_loginpost');
 
 
+Route::get('superadmin/setting_getwaypayment','SuperadminController@setting_getwaypayment');
+Route::post('superadmin/setting_getwaypayment','SuperadminController@setting_getwaypaymentpost');
+
+
 
 });
 
