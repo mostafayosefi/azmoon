@@ -2860,7 +2860,7 @@ $setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy
 $getway_payment = $setting->getway_payment;
 if($myuser->user_email=='mustafa1390@gmail.com'){
     $price='506';
-    $getway_payment = 'payping';
+    // $getway_payment = 'payping';
 }
 
 
@@ -4158,6 +4158,21 @@ public function zarinpal_pay($req_rnd){
                 ['myrequest.req_rnd', '=', $req_rnd],
                 ['myrequest.req_userid', '=', Session::get('iduser')], ])
                 ->orderBy('myrequest.req_id', 'desc')->first();
+
+                
+$myuser = DB::table('user')->where([
+    ['id',  Session::get('iduser')],
+])->first();
+
+$setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();
+$getway_payment = $setting->getway_payment;
+if($myuser->user_email=='mustafa1390@gmail.com'){
+    $price='506';
+    // $getway_payment = 'payping';
+}
+
+
+    if($getway_payment=='zarinpal'){
             
 //  start zarinpal
 
@@ -4213,6 +4228,12 @@ if (empty($result['errors'])) {
 
 
 //  end zarinpal
+    }
+    
+    if($getway_payment=='payping'){
+
+         return pay_payping($price , $myuser , $myrequest);
+    }
 
 
 
