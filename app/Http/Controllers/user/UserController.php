@@ -2859,8 +2859,8 @@ $myuser = DB::table('user')->where([
 $setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();
 $getway_payment = $setting->getway_payment;
 if($myuser->user_email=='mustafa1390@gmail.com'){
-    // $price='506';
-    // $getway_payment = 'payping';
+    $price='506';
+    $getway_payment = 'payping';
 }
 
 
@@ -3011,7 +3011,7 @@ $myuser = DB::table('user')->where([
 $price = $myrequest->req_price;
 
 if($myuser->user_email=='mustafa1390@gmail.com'){
-    // $price='506';
+    $price='506';
 }
 
 
@@ -4227,8 +4227,8 @@ $myuser = DB::table('user')->where([
 $setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();
 $getway_payment = $setting->getway_payment;
 if($myuser->user_email=='mustafa1390@gmail.com'){
-    // $price='506';
-    // $getway_payment = 'payping';
+    $price='506';
+    $getway_payment = 'payping';
 }
 
 $myuser = DB::table('user')->where([
