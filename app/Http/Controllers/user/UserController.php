@@ -2860,8 +2860,8 @@ $myuser = DB::table('user')->where([
 $setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();
 $getway_payment = $setting->getway_payment;
 if($myuser->user_email=='mustafa1390@gmail.com'){
-    // $price='506';
-    // $getway_payment = 'payping';
+    $price='10100';
+    $getway_payment = 'payping';
 }
 
 
@@ -2878,7 +2878,7 @@ $myuser = DB::table('user')->where([
     ['id',  Session::get('iduser')],
 ])->first();
  
-if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
+if($myuser->user_email=='mustafa1390@gmail.com'){$price='10100';}
 
 $data = array("merchant_id" => "f373affa-e1bd-11e8-bcb5-005056a205be",
 "amount" => $price,
@@ -3012,7 +3012,7 @@ $myuser = DB::table('user')->where([
 $price = $myrequest->req_price;
 
 if($myuser->user_email=='mustafa1390@gmail.com'){
-    // $price='506';
+    $price='10100';
 }
 
 
@@ -4228,8 +4228,8 @@ $myuser = DB::table('user')->where([
 $setting = DB::table('setting')->where('id' , 1)->orderBy('id', 'desc')->orderBy('id', 'desc')->first();
 $getway_payment = $setting->getway_payment;
 if($myuser->user_email=='mustafa1390@gmail.com'){
-    // $price='506';
-    // $getway_payment = 'payping';
+    $price='10100';
+    $getway_payment = 'payping';
 }
 
 $myuser = DB::table('user')->where([
@@ -4242,7 +4242,7 @@ $price = $myrequest->req_price;
             
 //  start zarinpal
 
-if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
+if($myuser->user_email=='mustafa1390@gmail.com'){$price='10100';}
 
 $data = array("merchant_id" => "f373affa-e1bd-11e8-bcb5-005056a205be",
 "amount" => $price,
@@ -4372,7 +4372,7 @@ $myuser = DB::table('user')->where([
 
 $price = $myrequest->req_price;
 
-if($myuser->user_email=='mustafa1390@gmail.com'){$price='5060';}
+if($myuser->user_email=='mustafa1390@gmail.com'){$price='10100';}
 
 $Authority = $_GET['Authority'];
 $data = array("merchant_id" => "f373affa-e1bd-11e8-bcb5-005056a205be", "authority" => $Authority, "amount" => $price);
