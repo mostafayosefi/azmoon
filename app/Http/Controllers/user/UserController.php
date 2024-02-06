@@ -22,6 +22,7 @@ public function testsms($MobileNumbers,$rnd){
 
 
     // 'UserApiKey' => '72f9c543d655faf535dd156',
+    // 'UserApiKey' => '72f9c543d655faf535dd156',
         $postData = array(
             'UserApiKey' => '74f310d16b4aaf35d6d10d1',
             'SecretKey' => '!Mehdi1241368',
